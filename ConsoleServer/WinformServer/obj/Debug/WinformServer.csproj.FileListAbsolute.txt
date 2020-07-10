@@ -1,0 +1,13 @@
+C:\Users\admin\source\repos\ChatManager\ConsoleServer\WinformServer\bin\Debug\WinformServer.exe.config
+C:\Users\admin\source\repos\ChatManager\ConsoleServer\WinformServer\bin\Debug\WinformServer.exe
+C:\Users\admin\source\repos\ChatManager\ConsoleServer\WinformServer\bin\Debug\WinformServer.pdb
+C:\Users\admin\source\repos\ChatManager\ConsoleServer\WinformServer\bin\Debug\Interfaces.dll
+C:\Users\admin\source\repos\ChatManager\ConsoleServer\WinformServer\bin\Debug\Interfaces.pdb
+C:\Users\admin\source\repos\ChatManager\ConsoleServer\WinformServer\obj\Debug\WinformServer.csprojResolveAssemblyReference.cache
+C:\Users\admin\source\repos\ChatManager\ConsoleServer\WinformServer\obj\Debug\WinformServer.Dashboard.resources
+C:\Users\admin\source\repos\ChatManager\ConsoleServer\WinformServer\obj\Debug\WinformServer.Properties.Resources.resources
+C:\Users\admin\source\repos\ChatManager\ConsoleServer\WinformServer\obj\Debug\WinformServer.csproj.GenerateResource.Cache
+C:\Users\admin\source\repos\ChatManager\ConsoleServer\WinformServer\obj\Debug\WinformServer.csproj.CoreCompileInputs.cache
+C:\Users\admin\source\repos\ChatManager\ConsoleServer\WinformServer\obj\Debug\WinformServer.exe
+C:\Users\admin\source\repos\ChatManager\ConsoleServer\WinformServer\obj\Debug\WinformServer.pdb
+C:\Users\admin\source\repos\ChatManager\ConsoleServer\WinformServer\bin\Debug\Interfaces.dll.config
