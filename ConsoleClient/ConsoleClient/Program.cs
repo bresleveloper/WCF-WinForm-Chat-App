@@ -75,5 +75,15 @@ namespace ConsoleClient
         {
             Console.WriteLine(clientName + " says " + msg);
         }
+
+        public void RecieveFromClient(string msg, ChatUser fromUser)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RecieveUsersChatHistory(ChatDetails[] chatHistory, ChatUser from)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

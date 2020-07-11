@@ -21,6 +21,8 @@ This is the Server. Most important thing to understand is that `Manager` class i
 
 Clients UI.
 
+Best to compile and run the `.exe` 3 times, with 2 of then use the `Connect As` buttons to really see the multi-chat capabilities.
+
 ## Database Added
 
 If you want to try run the `ChatManager.sql` in your machine, and change `YOUR-LOCALHOST-NAME\admin` to your AD value (cmd => `whoami`)

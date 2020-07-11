@@ -12,11 +12,6 @@ namespace ConsoleServer
                     ConcurrencyMode = ConcurrencyMode.Multiple)]
     public class Server : IServer
     {
-        public void ClientSay(string msg, string clientName)
-        {
-            throw new NotImplementedException();
-        }
-
         public event AksClientsListHandler AkskingClientsList;
         public delegate void AksClientsListHandler(IClient clientChannel);
         public void AksClientsList()
@@ -34,6 +29,19 @@ namespace ConsoleServer
             ClientRegistered(clientName, clientChannel);
         }
 
+        public event UsersChatHistoryHandler AksUsersChatHistoryEvent;
+        public delegate void UsersChatHistoryHandler(ChatUser a, ChatUser b);
+        public void AksUsersChatHistory(ChatUser a, ChatUser b)
+        {
+            //they should both get the history and open a chat
+            AksUsersChatHistoryEvent(a, b);
+        }
 
+        public event ClientSayHandler ClientSayEvent;
+        public delegate void ClientSayHandler(string msg, ChatUser clientFrom, ChatUser clientTo);
+        public void ClientSay(string msg, ChatUser clientFrom, ChatUser clientTo)
+        {
+            ClientSayEvent(msg, clientFrom, clientTo);
+        }
     }
 }

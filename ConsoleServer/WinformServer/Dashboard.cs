@@ -38,6 +38,7 @@ namespace WinformServer
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            txtBroadcast.KeyDown += TxtBroadcast_KeyDown;
             sendMsg sm = ServerMsg => lstStatus.Items.Add(ServerMsg);
 
             lstStatus.Items.Add("Form1_Load, create Server");
@@ -46,6 +47,20 @@ namespace WinformServer
             mng = new Manager(server, sm);
             lstStatus.Items.Add("Form1_Load, Hosting");
             Host();
+        }
+
+        private void TxtBroadcast_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+
+                // Then Do your Thang
+                mng.Broadcast(txtBroadcast.Text);
+                txtBroadcast.Text = string.Empty;
+
+            }
         }
 
         private void Host()
@@ -111,6 +126,11 @@ namespace WinformServer
         private void btnClear_Click(object sender, EventArgs e)
         {
             lstStatus.Items.Clear();
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

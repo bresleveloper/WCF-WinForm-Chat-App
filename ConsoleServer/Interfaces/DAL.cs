@@ -22,7 +22,7 @@ namespace Interfaces
             private static Regex lettersQuoteDash = new Regex("^[a-zA-Z\\\"\\-\\sא-ת]+$", RegexOptions.IgnoreCase);
             private static Regex lettersQuoteDigits = new Regex("^[א-ת\\\"\\d\\sa-zA-Z]+$", RegexOptions.IgnoreCase);
             private static Regex lettersEngDigits = new Regex("^[\\da-zA-Z]+$", RegexOptions.IgnoreCase);
-            private static Regex _maxString = new Regex("^[א-ת\\\"\\-\\d\\s\\w\\/()]+$", RegexOptions.IgnoreCase);
+            private static Regex _maxString = new Regex("^[א-ת\\\"\\d\\s\\w\\/()\\-\\@]+$", RegexOptions.IgnoreCase);
             private static Regex phone = new Regex("^[\\d\\-+]+$");
             private static Regex time = new Regex("^[\\d\\:]{5}$");
             private static Regex email = new Regex("^\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$");
@@ -82,6 +82,8 @@ namespace Interfaces
             public static bool maxString(string value)
             {
                 if (string.IsNullOrWhiteSpace(value)) { return true; }
+                //enableing 1 hypehn but not 2 => "-" allowed, "--" not
+                if (value.IndexOf("--") > -1) { return false; } 
                 return _maxString.IsMatch(value);
             }
             public static bool Password(string value)

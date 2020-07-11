@@ -28,10 +28,10 @@ namespace Interfaces
         [DataMember]
         public string odaa { get; set; }
         [DataMember]
-        public string ReadOdaa { get; set; }
+        public bool ReadOdaa { get; set; }
         [DataMember]
         public DateTime dateAdd { get; set; }
         [DataMember]
-        public DateTime dateRead { get; set; }
+        public DateTime? dateRead { get; set; }
     }
 }

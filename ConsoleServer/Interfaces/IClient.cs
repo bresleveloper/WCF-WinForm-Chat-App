@@ -13,10 +13,14 @@ namespace Interfaces
         void PrintBroadcastMessage(string msg);
 
         [OperationContract(IsOneWay = true)]
-        void RecieveFromClient(string msg, string clientName);
+        void RecieveFromClient(string msg, ChatUser fromUser);
 
         [OperationContract(IsOneWay = true)]
         void RecieveClientsList(ChatUser[] clientList);
 
+        [OperationContract(IsOneWay = true)]
+        void RecieveUsersChatHistory(ChatDetails[] chatHistory, ChatUser from);
+
+        
     }
 }

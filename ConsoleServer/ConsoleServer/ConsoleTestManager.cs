@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ConsoleServer
 {
-    class Manager
+    class ConsoleTestManager
     {
         Server server;
         private List<IClient> myClientsChannels = new List<IClient>();
@@ -18,7 +18,7 @@ namespace ConsoleServer
             myClients = myClients.Where(c => ((ICommunicationObject)c.client).State == CommunicationState.Opened).ToList();
         }
 
-        public Manager(Server _server)
+        public ConsoleTestManager(Server _server)
         {
             server = _server;
             server.ClientRegistered += Server_ClientRegistered;

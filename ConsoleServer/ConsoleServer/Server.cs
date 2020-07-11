@@ -34,6 +34,14 @@ namespace ConsoleServer
             ClientRegistered(clientName, clientChannel);
         }
 
+        public void AksUsersChatHistory(ChatUser a, ChatUser b)
+        {
+            throw new NotImplementedException();
+        }
 
+        public void ClientSay(string msg, ChatUser clientFrom, ChatUser clientTo)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

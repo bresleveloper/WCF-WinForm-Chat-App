@@ -43,6 +43,8 @@
             this.btnRuth = new System.Windows.Forms.Button();
             this.lblWelcomeName = new System.Windows.Forms.Label();
             this.lblWelcomeADName = new System.Windows.Forms.Label();
+            this.txtChatInput = new System.Windows.Forms.TextBox();
+            this.btnTestFlash = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -100,7 +102,7 @@
             this.lstChat.Location = new System.Drawing.Point(57, 178);
             this.lstChat.Margin = new System.Windows.Forms.Padding(4);
             this.lstChat.Name = "lstChat";
-            this.lstChat.Size = new System.Drawing.Size(854, 479);
+            this.lstChat.Size = new System.Drawing.Size(854, 403);
             this.lstChat.TabIndex = 18;
             // 
             // lstUsers
@@ -113,6 +115,7 @@
             this.lstUsers.Name = "lstUsers";
             this.lstUsers.Size = new System.Drawing.Size(236, 498);
             this.lstUsers.TabIndex = 19;
+            this.lstUsers.SelectedIndexChanged += new System.EventHandler(this.lstUsers_SelectedIndexChanged);
             // 
             // lblUsers
             // 
@@ -195,18 +198,39 @@
             // 
             this.lblWelcomeADName.AutoSize = true;
             this.lblWelcomeADName.Font = new System.Drawing.Font("Monotype Corsiva", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblWelcomeADName.Location = new System.Drawing.Point(58, 93);
+            this.lblWelcomeADName.Location = new System.Drawing.Point(60, 93);
             this.lblWelcomeADName.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.lblWelcomeADName.Name = "lblWelcomeADName";
             this.lblWelcomeADName.Size = new System.Drawing.Size(50, 15);
             this.lblWelcomeADName.TabIndex = 27;
             this.lblWelcomeADName.Text = "Welcome ";
             // 
+            // txtChatInput
+            // 
+            this.txtChatInput.Location = new System.Drawing.Point(56, 605);
+            this.txtChatInput.Name = "txtChatInput";
+            this.txtChatInput.Size = new System.Drawing.Size(855, 26);
+            this.txtChatInput.TabIndex = 28;
+            this.txtChatInput.TextChanged += new System.EventHandler(this.txtChatInput_TextChanged);
+            // 
+            // btnTestFlash
+            // 
+            this.btnTestFlash.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.btnTestFlash.Location = new System.Drawing.Point(355, 727);
+            this.btnTestFlash.Name = "btnTestFlash";
+            this.btnTestFlash.Size = new System.Drawing.Size(144, 37);
+            this.btnTestFlash.TabIndex = 29;
+            this.btnTestFlash.Text = "test the flash";
+            this.btnTestFlash.UseVisualStyleBackColor = true;
+            this.btnTestFlash.Click += new System.EventHandler(this.btnTestFlash_Click);
+            // 
             // ClientForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1223, 775);
+            this.Controls.Add(this.btnTestFlash);
+            this.Controls.Add(this.txtChatInput);
             this.Controls.Add(this.lblWelcomeADName);
             this.Controls.Add(this.lblWelcomeName);
             this.Controls.Add(this.btnRuth);
@@ -248,6 +272,8 @@
         private System.Windows.Forms.Button btnRuth;
         private System.Windows.Forms.Label lblWelcomeName;
         private System.Windows.Forms.Label lblWelcomeADName;
+        private System.Windows.Forms.TextBox txtChatInput;
+        private System.Windows.Forms.Button btnTestFlash;
     }
 }
 

@@ -17,8 +17,10 @@ namespace Interfaces
         void AksClientsList();
 
         [OperationContract(IsOneWay = true)]
-        void ClientSay(string msg, string clientName);
+        void ClientSay(string msg, ChatUser clientFrom, ChatUser clientTo);
 
+        [OperationContract(IsOneWay = true)]
+        void AksUsersChatHistory(ChatUser a, ChatUser b);
 
     }
 }

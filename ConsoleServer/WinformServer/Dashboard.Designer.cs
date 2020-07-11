@@ -37,6 +37,8 @@
             this.btnListUsers = new System.Windows.Forms.Button();
             this.lstStatus = new System.Windows.Forms.ListBox();
             this.btnClear = new System.Windows.Forms.Button();
+            this.txtBroadcast = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -116,7 +118,7 @@
             this.lstStatus.ItemHeight = 19;
             this.lstStatus.Location = new System.Drawing.Point(87, 168);
             this.lstStatus.Name = "lstStatus";
-            this.lstStatus.Size = new System.Drawing.Size(850, 346);
+            this.lstStatus.Size = new System.Drawing.Size(850, 327);
             this.lstStatus.TabIndex = 23;
             this.lstStatus.SelectedIndexChanged += new System.EventHandler(this.lstStatus_SelectedIndexChanged_1);
             // 
@@ -132,11 +134,32 @@
             this.btnClear.UseVisualStyleBackColor = true;
             this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
+            // txtBroadcast
+            // 
+            this.txtBroadcast.Location = new System.Drawing.Point(87, 533);
+            this.txtBroadcast.Name = "txtBroadcast";
+            this.txtBroadcast.Size = new System.Drawing.Size(786, 26);
+            this.txtBroadcast.TabIndex = 25;
+            this.txtBroadcast.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Monotype Corsiva", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(84, 512);
+            this.label4.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(140, 18);
+            this.label4.TabIndex = 26;
+            this.label4.Text = "Broadcast to all Clients";
+            // 
             // Dashboard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1003, 663);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.txtBroadcast);
             this.Controls.Add(this.btnClear);
             this.Controls.Add(this.lstStatus);
             this.Controls.Add(this.btnListUsers);
@@ -166,6 +189,8 @@
         private System.Windows.Forms.Button btnListUsers;
         private System.Windows.Forms.ListBox lstStatus;
         private System.Windows.Forms.Button btnClear;
+        private System.Windows.Forms.TextBox txtBroadcast;
+        private System.Windows.Forms.Label label4;
     }
 }
 
