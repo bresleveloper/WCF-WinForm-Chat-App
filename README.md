@@ -4,7 +4,7 @@
 
 1. Install .Net 4.6.1 from [microsoft here](https://www.microsoft.com/en-us/download/details.aspx?id=49981) (unless installed already)
 2. Clone the GIT
-3. Open your localhost Sql Server and run `ChatManager.sql` (or make relevat changes to the sql Connection String in 4 configs, each Debug lib has 2)
+3. Open your localhost Sql Server and run `ChatManager.sql` 
 4. Go to `ConsoleServer/WinformServer/bin/Debug` and run once `WinformServer.exe`
 5. Go to `ConsoleClient/WinformClient/bin/Debug` and run `WinformClient.exe` an click `Connect as Moshe`
 6. run `WinformClient.exe` again an click `Connect as Ruth`
@@ -42,3 +42,7 @@ Best to compile and run the `.exe` 3 times, with 2 of then use the `Connect As` 
 ## Database Added
 
 If you want to try run the `ChatManager.sql` in your machine, and change `YOUR-LOCALHOST-NAME\admin` to your AD value (cmd => `whoami`)
+
+
+If you want to run on another Sql Server you'll have to change connection string values on 4 `.config`s, 2 at each `Debug` folder (or at 3 projects if you recompile it)
+
