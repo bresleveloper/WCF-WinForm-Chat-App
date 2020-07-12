@@ -4,10 +4,11 @@
 
 1. Install .Net 4.6.1 from [microsoft here](https://www.microsoft.com/en-us/download/details.aspx?id=49981) (unless installed already)
 2. Clone the GIT
-3. Go to `ConsoleServer/WinformServer/bin/Debug` and run once `WinformServer.exe`
-4. Go to `ConsoleClient/WinformClient/bin/Debug` and run `WinformClient.exe` an click `Connect as Moshe`
-5. run `WinformClient.exe` again an click `Connect as Ruth`
-6. Chat!
+3. Open your localhost Sql Server and run `ChatManager.sql` (or make relevat changes to the sql Connection String in 4 configs, each Debug lib has 2)
+4. Go to `ConsoleServer/WinformServer/bin/Debug` and run once `WinformServer.exe`
+5. Go to `ConsoleClient/WinformClient/bin/Debug` and run `WinformClient.exe` an click `Connect as Moshe`
+6. run `WinformClient.exe` again an click `Connect as Ruth`
+7. Chat!
 
 ## How to use it for yourself?
 You'll have to insert all relevat users into the db as described in the down here in `Database Added` section, or change the code to auto-insert any new user.
