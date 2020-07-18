@@ -107,14 +107,15 @@ namespace ConsoleServer
             }
             else
             {
-                if (myClients.ContainsKey(a.UserAd) == true)
+                //causes endless loop if user ad not in db table
+                /*if (myClients.ContainsKey(a.UserAd) == true)
                 {
                     myClients[a.UserAd].client.RecieveClientsList(GetConnectedUsersList());
                 }
                 if (myClients.ContainsKey(b.UserAd) == true)
                 {
                     myClients[b.UserAd].client.RecieveClientsList(GetConnectedUsersList());
-                }
+                }*/
                 return false;
             }
         }
@@ -160,16 +161,18 @@ namespace ConsoleServer
         public ChatUser[] GetConnectedUsersList()
         {
             ChatUser[] users = ChatDAL.GetUsersList();
-            List<ChatUser> connectedChatUsers = new List<ChatUser>();
+            //List<ChatUser> connectedChatUsers = new List<ChatUser>();
 
             foreach (ChatUser u in users)
             {
-                if (myClients.ContainsKey(u.UserAd))
+                /*if (myClients.ContainsKey(u.UserAd))
                 {
                     connectedChatUsers.Add(u);
-                }
+                }*/
+                u.IsConnected = myClients.ContainsKey(u.UserAd);
             };
-            return connectedChatUsers.ToArray();
+            //return connectedChatUsers.ToArray();
+            return users;
         }
 
     }

@@ -18,8 +18,9 @@ namespace Interfaces
         public static ChatDetails[] GetChatDetailsForUsers(ChatUser a, ChatUser b)
         {
             string query = @"SELECT *  FROM [datatormim].[dbo].[ChatDetail] 
-                            where FromUserAd = @userA_ADName or FromUserAd = @userB_ADName 
-                            or ToUserAd = @userA_ADName or ToUserAd = @userB_ADName ";
+                            where (FromUserAd = @userA_ADName or FromUserAd = @userB_ADName)
+                            and 
+                                (ToUserAd = @userA_ADName or ToUserAd = @userB_ADName) ";
 
             List<SqlParameter> sqlParams = new List<SqlParameter>();
             sqlParams.Add(new SqlParameter("@userA_ADName", a.UserAd));

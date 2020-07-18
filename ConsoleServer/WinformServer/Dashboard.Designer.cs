@@ -39,6 +39,8 @@
             this.btnClear = new System.Windows.Forms.Button();
             this.txtBroadcast = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.btnDBUsers = new System.Windows.Forms.Button();
+            this.btnTestConnection = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -106,9 +108,9 @@
             this.btnListUsers.Location = new System.Drawing.Point(304, 76);
             this.btnListUsers.Margin = new System.Windows.Forms.Padding(4);
             this.btnListUsers.Name = "btnListUsers";
-            this.btnListUsers.Size = new System.Drawing.Size(144, 57);
+            this.btnListUsers.Size = new System.Drawing.Size(169, 57);
             this.btnListUsers.TabIndex = 21;
-            this.btnListUsers.Text = "List Users";
+            this.btnListUsers.Text = "List Connected Users";
             this.btnListUsers.UseVisualStyleBackColor = true;
             this.btnListUsers.Click += new System.EventHandler(this.btnListUsers_Click);
             // 
@@ -125,10 +127,10 @@
             // btnClear
             // 
             this.btnClear.Font = new System.Drawing.Font("Times New Roman", 12F);
-            this.btnClear.Location = new System.Drawing.Point(494, 76);
+            this.btnClear.Location = new System.Drawing.Point(885, 76);
             this.btnClear.Margin = new System.Windows.Forms.Padding(4);
             this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(144, 57);
+            this.btnClear.Size = new System.Drawing.Size(52, 57);
             this.btnClear.TabIndex = 24;
             this.btnClear.Text = "Clear";
             this.btnClear.UseVisualStyleBackColor = true;
@@ -153,11 +155,37 @@
             this.label4.TabIndex = 26;
             this.label4.Text = "Broadcast to all Clients";
             // 
+            // btnDBUsers
+            // 
+            this.btnDBUsers.Font = new System.Drawing.Font("Times New Roman", 12F);
+            this.btnDBUsers.Location = new System.Drawing.Point(518, 76);
+            this.btnDBUsers.Margin = new System.Windows.Forms.Padding(4);
+            this.btnDBUsers.Name = "btnDBUsers";
+            this.btnDBUsers.Size = new System.Drawing.Size(144, 57);
+            this.btnDBUsers.TabIndex = 27;
+            this.btnDBUsers.Text = "List Users From DB";
+            this.btnDBUsers.UseVisualStyleBackColor = true;
+            this.btnDBUsers.Click += new System.EventHandler(this.btnDBUsers_Click);
+            // 
+            // btnTestConnection
+            // 
+            this.btnTestConnection.Font = new System.Drawing.Font("Times New Roman", 12F);
+            this.btnTestConnection.Location = new System.Drawing.Point(785, 76);
+            this.btnTestConnection.Margin = new System.Windows.Forms.Padding(4);
+            this.btnTestConnection.Name = "btnTestConnection";
+            this.btnTestConnection.Size = new System.Drawing.Size(88, 57);
+            this.btnTestConnection.TabIndex = 28;
+            this.btnTestConnection.Text = "Test DB Connection";
+            this.btnTestConnection.UseVisualStyleBackColor = true;
+            this.btnTestConnection.Click += new System.EventHandler(this.btnTestConnection_Click);
+            // 
             // Dashboard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1003, 663);
+            this.Controls.Add(this.btnTestConnection);
+            this.Controls.Add(this.btnDBUsers);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.txtBroadcast);
             this.Controls.Add(this.btnClear);
@@ -191,6 +219,8 @@
         private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.TextBox txtBroadcast;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button btnDBUsers;
+        private System.Windows.Forms.Button btnTestConnection;
     }
 }
 

@@ -132,5 +132,24 @@ namespace WinformServer
         {
 
         }
+
+        private void btnDBUsers_Click(object sender, EventArgs e)
+        {
+            ChatUser[] dbusers = ChatDAL.GetUsersList();
+            if (dbusers == null || dbusers.Length == 0)
+            {
+                lstStatus.Items.Add("no users in db");
+                return;
+            }
+            for (int i = 0; i < dbusers.Length; i++)
+            {
+                lstStatus.Items.Add(dbusers[i].UserAd + " - " + dbusers[i].UserHeb);
+            }
+        }
+
+        private void btnTestConnection_Click(object sender, EventArgs e)
+        {
+            lstStatus.Items.Add((DAL.TestConnection() ? "Successfully" : "NOT" ) + " Connected to DB");
+        }
     }
 }

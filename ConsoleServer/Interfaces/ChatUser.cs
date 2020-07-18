@@ -20,5 +20,8 @@ namespace Interfaces
         public string UserHeb { get; set; }
         [DataMember]
         public bool ArshaaAdmin { get; set; }
+
+        [DataMember]
+        public bool IsConnected { get; set; }
     }
 }

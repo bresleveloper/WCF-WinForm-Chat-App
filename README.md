@@ -10,6 +10,10 @@
 6. run `WinformClient.exe` again an click `Connect as Ruth`
 7. Chat!
 
+#### Bonus
+`_trio.bat` runs 3 `WinformClient.exe`, added inside `ConsoleClient/WinformClient/bin/Debug`
+
+
 ## How to use it for yourself?
 You'll have to insert all relevat users into the db as described in the down here in `Database Added` section, or change the code to auto-insert any new user.
 
@@ -41,7 +45,7 @@ Best to compile and run the `.exe` 3 times, with 2 of then use the `Connect As` 
 
 ## Database Added
 
-If you want to try run the `ChatManager.sql` in your machine, and change `YOUR-LOCALHOST-NAME\admin` to your AD value (cmd => `whoami`)
+If you want to try run the `ChatManager.sql` in your machine, and change `yourUserName@YOUR-LOCALHOST-NAME` to your AD value (cmd => `whoami`)
 
 
 If you want to run on another Sql Server you'll have to change connection string values on 4 `.config`s, 2 at each `Debug` folder (or at 3 projects if you recompile it)

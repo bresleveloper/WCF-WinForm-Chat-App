@@ -45,6 +45,7 @@
             this.lblWelcomeADName = new System.Windows.Forms.Label();
             this.txtChatInput = new System.Windows.Forms.TextBox();
             this.btnTestFlash = new System.Windows.Forms.Button();
+            this.lblChatWith = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -98,12 +99,14 @@
             // 
             this.lstChat.Font = new System.Drawing.Font("Times New Roman", 12F);
             this.lstChat.FormattingEnabled = true;
+            this.lstChat.IntegralHeight = false;
             this.lstChat.ItemHeight = 19;
             this.lstChat.Location = new System.Drawing.Point(57, 178);
             this.lstChat.Margin = new System.Windows.Forms.Padding(4);
             this.lstChat.Name = "lstChat";
             this.lstChat.Size = new System.Drawing.Size(854, 403);
             this.lstChat.TabIndex = 18;
+            this.lstChat.SelectedIndexChanged += new System.EventHandler(this.lstChat_SelectedIndexChanged);
             // 
             // lstUsers
             // 
@@ -115,6 +118,7 @@
             this.lstUsers.Name = "lstUsers";
             this.lstUsers.Size = new System.Drawing.Size(236, 498);
             this.lstUsers.TabIndex = 19;
+            this.lstUsers.MouseClick += new System.Windows.Forms.MouseEventHandler(this.lstUsers_MouseClick);
             this.lstUsers.SelectedIndexChanged += new System.EventHandler(this.lstUsers_SelectedIndexChanged);
             // 
             // lblUsers
@@ -224,11 +228,23 @@
             this.btnTestFlash.UseVisualStyleBackColor = true;
             this.btnTestFlash.Click += new System.EventHandler(this.btnTestFlash_Click);
             // 
+            // lblChatWith
+            // 
+            this.lblChatWith.AutoSize = true;
+            this.lblChatWith.Font = new System.Drawing.Font("Monotype Corsiva", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblChatWith.Location = new System.Drawing.Point(176, 154);
+            this.lblChatWith.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lblChatWith.Name = "lblChatWith";
+            this.lblChatWith.Size = new System.Drawing.Size(94, 18);
+            this.lblChatWith.TabIndex = 30;
+            this.lblChatWith.Text = "Chatting With ";
+            // 
             // ClientForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1223, 775);
+            this.Controls.Add(this.lblChatWith);
             this.Controls.Add(this.btnTestFlash);
             this.Controls.Add(this.txtChatInput);
             this.Controls.Add(this.lblWelcomeADName);
@@ -274,6 +290,7 @@
         private System.Windows.Forms.Label lblWelcomeADName;
         private System.Windows.Forms.TextBox txtChatInput;
         private System.Windows.Forms.Button btnTestFlash;
+        private System.Windows.Forms.Label lblChatWith;
     }
 }
 

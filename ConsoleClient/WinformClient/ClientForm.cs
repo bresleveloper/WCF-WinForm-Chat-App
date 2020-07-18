@@ -16,8 +16,11 @@ namespace WinformClient
     {
         Client client;
         ChatUser me;
+        //ChatUser _selectedUser;
         IServer chatServerProxy;
         private DuplexChannelFactory<IServer> channel;
+        private string selectedUserAdName = string.Empty;
+        private int last_selectedUserIndex = -1;
 
 
         private Dictionary<string, ChatDetails[]> chatsData = new Dictionary<string, ChatDetails[]>();
@@ -85,20 +88,94 @@ namespace WinformClient
                 UpdateChatDataEventHanlder
             );
 
-            lstUsers.Format += LstUsers_Format;
-            lstChat.Format += LstChat_Format;
+            //lstUsers.Format += LstUsers_Format;
+            //lstUsers.DrawMode = DrawMode.OwnerDrawFixed;
+            lstUsers.DrawMode = DrawMode.OwnerDrawVariable;
+            lstUsers.DrawItem += LstUsers_DrawItem;
+            //lstUsers.MeasureItem += LstUsers_MeasureItem;
+            lstUsers.SelectionMode = SelectionMode.One;
+
+
+            //lstChat.Format += LstChat_Format;
+            lstChat.DrawMode = DrawMode.OwnerDrawVariable;
+            lstChat.MeasureItem += LstChat_MeasureItem;
+            lstChat.DrawItem += LstChat_DrawItem;
 
             ConnectToServer(client);
 
         }
 
-        private void LstChat_Format(object sender, ListControlConvertEventArgs e)
+        private void LstChat_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            if (e.Index < 0) return;
+
+            string value = ((ChatDetails)lstChat.Items[e.Index]).odaa;
+            e.DrawBackground();
+            e.Graphics.DrawString(value, e.Font, new SolidBrush(e.ForeColor), e.Bounds);
+        }
+
+        private void LstChat_MeasureItem(object sender, MeasureItemEventArgs e)
+        {
+            //e.ItemHeight = 150;
+            //base is 19
+            string value = ((ChatDetails)lstChat.Items[e.Index]).odaa;
+            int x = Convert.ToInt32( Math.Ceiling(((double)value.Length / 200)) );
+            e.ItemHeight = 19 * x;
+        }
+
+        private void LstUsers_MeasureItem(object sender, MeasureItemEventArgs e)
+        {
+            //e.ItemHeight = (int)e.Graphics.MeasureString(lstUsers.Items[e.Index].ToString(), lstUsers.Font, lstUsers.Width).Height;
+            e.ItemHeight = 150;
+        }
+
+        private void LstUsers_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            if (e.Index < 0) return;
+            if (e.Index == 0)
+            {
+                AddMsgToChat("LstUsers_DrawItem");
+            }
+
+            ChatUser u = lstUsers.Items[e.Index] as ChatUser;
+
+            // Draw the new background colour
+            Graphics g = e.Graphics;
+            //e.DrawBackground();
+            Brush bgBrush = u.IsConnected ? Brushes.White : Brushes.DarkGray;
+            Brush foreBrush = Brushes.Black;
+
+            if (u.IsConnected && e.Index == lstUsers.SelectedIndex)
+            {
+                //_selectedUser = u;
+                bgBrush = SystemBrushes.Highlight;
+                foreBrush = Brushes.White;
+            }
+
+            if (last_selectedUserIndex != lstUsers.SelectedIndex &&
+                u.IsConnected && e.Index == last_selectedUserIndex)
+            {
+                bgBrush = u.IsConnected ? Brushes.White : Brushes.DarkGray;
+                foreBrush = Brushes.Black;
+            }
+
+            e.Graphics.FillRectangle(bgBrush, e.Bounds);
+
+            string value = u.UserHeb;
+            //debug
+            //value += " - " + u.NumOved + " - " + e.Index + " - " + lstUsers.SelectedIndex;
+
+            e.Graphics.DrawString(value, e.Font, foreBrush, e.Bounds);
+            e.DrawFocusRectangle();
+        }
+
+        /*private void LstChat_Format(object sender, ListControlConvertEventArgs e)
         {
             if (e.ListItem is ChatDetails)
             {
                 e.Value = ((ChatDetails)e.ListItem).odaa;
             }
-        }
+        }*/
 
         private void AddMsgToChat(string msg)
         {
@@ -121,17 +198,18 @@ namespace WinformClient
             }
         }
 
-        private void LstUsers_Format(object sender, ListControlConvertEventArgs e)
+        /*private void LstUsers_Format(object sender, ListControlConvertEventArgs e)
         {
+            //not in use if lstUsers.DrawMode = DrawMode.OwnerDrawFixed, only LstUsers_DrawItem
             if (e.ListItem is ChatUser)
             {
                 e.Value = ((ChatUser)e.ListItem).UserHeb;
             }
-            /*else
+            else
             {
                e.Value = "Unknown item added";
-            }*/
-        }
+            }
+        }*/
 
         private void ConnectToServer(Client client)
         {
@@ -201,8 +279,14 @@ namespace WinformClient
 
         private void lstUsers_SelectedIndexChanged(object sender, EventArgs e)
         {
+            /*
             ChatUser selectedUser = lstUsers.SelectedItem as ChatUser;
-            chatServerProxy.AksUsersChatHistory(me, selectedUser);
+            AddMsgToChat("selected user changed to " + selectedUserAdName);
+            
+            if (selectedUserAdName != selectedUser.UserAd)
+            {
+                chatServerProxy.AksUsersChatHistory(me, selectedUser);
+            }*/
         }
 
         private void txtChatInput_TextChanged(object sender, EventArgs e)
@@ -223,6 +307,25 @@ namespace WinformClient
             };
             timer.Start();
         }
+
+        private void lstChat_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lstUsers_MouseClick(object sender, MouseEventArgs e)
+        {
+            //last selected index
+            this.last_selectedUserIndex = lstUsers.SelectedIndex;
+            ChatUser selectedUser = lstUsers.SelectedItem as ChatUser;
+            //AddMsgToChat("selected user changed to " + selectedUserAdName);
+            lblChatWith.Text = "Chatting With " + selectedUser.UserHeb + "(" + selectedUser.UserAd + ")";
+            if (selectedUserAdName != selectedUser.UserAd)
+            {
+                chatServerProxy.AksUsersChatHistory(me, selectedUser);
+            }
+            lstChat.DataSource = new ChatDetails[0];
+        }
     }
 
 
@@ -233,7 +336,8 @@ namespace WinformClient
         private sendData updateUsersList;
         private recieveChatData updateChatData;
 
-        public string clientAD = Environment.UserDomainName + "@" + Environment.UserName;
+        //public string clientAD = Environment.UserDomainName + "@" + Environment.UserName;
+        public string clientAD = Environment.UserName + "@" + Environment.UserDomainName;
 
         public Client(sendMsg __msgDlg, 
             sendData updateChatListDlg, 

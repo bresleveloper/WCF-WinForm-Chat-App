@@ -108,6 +108,25 @@ namespace Interfaces
         public static Exception LastException { get; private set; }
 
 
+        public static bool TestConnection()
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(ConStr))
+                {
+                    con.Open();
+                    con.Close();
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                LastException = ex;
+                // Logger.error("DAL.select(" + cmd.CommandText + ")", ex);
+                return false;
+            }
+        }
+
 
         /***************/
         /***** exec ****/
