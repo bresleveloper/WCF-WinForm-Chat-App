@@ -43,7 +43,7 @@
             this.btnTestFlash = new System.Windows.Forms.Button();
             this.lblChatWith = new System.Windows.Forms.Label();
             this.txtBroadcast = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lblBroadcast = new System.Windows.Forms.Label();
             this.btnConnectAharon = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -82,7 +82,6 @@
             this.lstUsers.Size = new System.Drawing.Size(236, 498);
             this.lstUsers.TabIndex = 19;
             this.lstUsers.MouseClick += new System.Windows.Forms.MouseEventHandler(this.lstUsers_MouseClick);
-            this.lstUsers.SelectedIndexChanged += new System.EventHandler(this.lstUsers_SelectedIndexChanged);
             // 
             // lblUsers
             // 
@@ -196,7 +195,7 @@
             // 
             this.lblChatWith.AutoSize = true;
             this.lblChatWith.Font = new System.Drawing.Font("Monotype Corsiva", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblChatWith.Location = new System.Drawing.Point(521, 154);
+            this.lblChatWith.Location = new System.Drawing.Point(53, 156);
             this.lblChatWith.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.lblChatWith.Name = "lblChatWith";
             this.lblChatWith.Size = new System.Drawing.Size(88, 18);
@@ -212,16 +211,16 @@
             this.txtBroadcast.TabIndex = 31;
             this.txtBroadcast.TextChanged += new System.EventHandler(this.txtBroadcast_TextChanged);
             // 
-            // label1
+            // lblBroadcast
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Monotype Corsiva", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(1123, 584);
-            this.label1.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(88, 18);
-            this.label1.TabIndex = 32;
-            this.label1.Text = "כתוב לכולם";
+            this.lblBroadcast.AutoSize = true;
+            this.lblBroadcast.Font = new System.Drawing.Font("Monotype Corsiva", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblBroadcast.Location = new System.Drawing.Point(1123, 584);
+            this.lblBroadcast.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lblBroadcast.Name = "lblBroadcast";
+            this.lblBroadcast.Size = new System.Drawing.Size(88, 18);
+            this.lblBroadcast.TabIndex = 32;
+            this.lblBroadcast.Text = "כתוב לכולם";
             // 
             // btnConnectAharon
             // 
@@ -240,7 +239,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1223, 775);
             this.Controls.Add(this.btnConnectAharon);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lblBroadcast);
             this.Controls.Add(this.txtBroadcast);
             this.Controls.Add(this.lblChatWith);
             this.Controls.Add(this.btnTestFlash);
@@ -282,7 +281,7 @@
         private System.Windows.Forms.Button btnTestFlash;
         private System.Windows.Forms.Label lblChatWith;
         private System.Windows.Forms.TextBox txtBroadcast;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblBroadcast;
         private System.Windows.Forms.Button btnConnectAharon;
     }
 }

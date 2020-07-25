@@ -22,7 +22,6 @@ namespace WinformClient
         IServer chatServerProxy;
         private DuplexChannelFactory<IServer> channel;
         private string selectedUserAdName = string.Empty;
-        private int last_selectedUserIndex = -1;
 
 
         private Dictionary<string, ChatDetails[]> chatsData = new Dictionary<string, ChatDetails[]>();
@@ -38,12 +37,41 @@ namespace WinformClient
             btnTestFlash.Visible = devmode;
         }
 
+        private void ClientForm_Load(object sender, EventArgs e)
+        {
+            txtChatInput.KeyDown += TxtChatInput_KeyDown;
+            txtBroadcast.KeyDown += TxtBroadcast_KeyDown;
+
+            client = new Client(
+                //sendMsg __msgDlg,
+                AddMsgToChat,
+                //sendData updateChatListDlg
+                data => lstChat.DataSource = data,
+                //sendData updateUsersListDlg,
+                UpdateUsersList,
+                //recieveChatData updateChatDataDlg
+                UpdateChatDataEventHanlder
+            );
+
+            lstUsers.DrawMode = DrawMode.OwnerDrawVariable;
+            lstUsers.DrawItem += LstUsers_DrawItem;
+            lstUsers.SelectionMode = SelectionMode.One;
+
+            lstChat.DrawMode = DrawMode.OwnerDrawVariable;
+            lstChat.MeasureItem += LstChat_MeasureItem;
+            lstChat.DrawItem += LstChat_DrawItem;
+
+            ConnectToServer(client);
+        }
+
         public void UpdateUsersList(object[] _clientList)
         {
             allUsers = _clientList as ChatUser[];
             List<ChatUser> clientList = new List<ChatUser>(_clientList as ChatUser[]);
 
             this.me = clientList.Find(u => u.UserAd == client.clientAD);
+            clientList.Remove(me);
+
             lblWelcomeName.Text = "שלום " + me.UserHeb;
             lblWelcomeADName.Text = "Welcome " +  me.UserAd;
 
@@ -54,6 +82,7 @@ namespace WinformClient
             else
             {
                 txtBroadcast.Visible = false;
+                lblBroadcast.Visible = false;
                 btnRefreshUsers.Visible = false;
                 lstUsers.DataSource = talkingToMe.ToArray();
             }
@@ -86,36 +115,11 @@ namespace WinformClient
 
             //4. update the chat
             lstChat.DataSource = chatsData[from.UserAd];
+            lblChatWith.Text = " מתכתב עם " + from.UserHeb + " (" + from.UserAd + ")";
+
 
             //5. if history has more recent item than in cache, make highlight
             btnTestFlash_Click(null, null);
-        }
-
-        private void ClientForm_Load(object sender, EventArgs e)
-        {
-            txtChatInput.KeyDown += TxtChatInput_KeyDown;
-            txtBroadcast.KeyDown += TxtBroadcast_KeyDown;
-
-            client = new Client(
-                //sendMsg __msgDlg,
-                AddMsgToChat,
-                //sendData updateChatListDlg
-                data => lstChat.DataSource = data,
-                //sendData updateUsersListDlg,
-                UpdateUsersList,
-                //recieveChatData updateChatDataDlg
-                UpdateChatDataEventHanlder
-            );
-
-            lstUsers.DrawMode = DrawMode.OwnerDrawVariable;
-            lstUsers.DrawItem += LstUsers_DrawItem;
-            lstUsers.SelectionMode = SelectionMode.One;
-
-            lstChat.DrawMode = DrawMode.OwnerDrawVariable;
-            lstChat.MeasureItem += LstChat_MeasureItem;
-            lstChat.DrawItem += LstChat_DrawItem;
-
-            ConnectToServer(client);
         }
 
         private void TxtBroadcast_KeyDown(object sender, KeyEventArgs e)
@@ -165,32 +169,25 @@ namespace WinformClient
             }
 
             ChatUser u = lstUsers.Items[e.Index] as ChatUser;
+            ChatUser uSelected = lstUsers.SelectedValue as ChatUser;
 
             // Draw the new background colour
             Graphics g = e.Graphics;
-            //e.DrawBackground();
             Brush bgBrush = u.IsConnected ? Brushes.White : Brushes.DarkGray;
             Brush foreBrush = Brushes.Black;
 
-            if (u.IsConnected && e.Index == lstUsers.SelectedIndex)
+            if (u.IsConnected && u.UserAd == selectedUserAdName)
             {
-                //_selectedUser = u;
                 bgBrush = SystemBrushes.Highlight;
                 foreBrush = Brushes.White;
-            }
-
-            if (last_selectedUserIndex != lstUsers.SelectedIndex &&
-                u.IsConnected && e.Index == last_selectedUserIndex)
-            {
-                bgBrush = u.IsConnected ? Brushes.White : Brushes.DarkGray;
-                foreBrush = Brushes.Black;
             }
 
             e.Graphics.FillRectangle(bgBrush, e.Bounds);
 
             string value = u.UserHeb;
             //debug
-            //value += " - " + u.NumOved + " - " + e.Index + " - " + lstUsers.SelectedIndex;
+            //value += " - " + u.NumOved + " - " + e.Index + " - " + lstUsers.SelectedIndex + " - " + last_selectedUserIndex;
+            //value += " - " + selectedUserAdName;
 
             e.Graphics.DrawString(value, e.Font, foreBrush, e.Bounds);
             e.DrawFocusRectangle();
@@ -283,18 +280,6 @@ namespace WinformClient
             ConnectToServer(client);
         }
 
-        private void lstUsers_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            /*
-            ChatUser selectedUser = lstUsers.SelectedItem as ChatUser;
-            AddMsgToChat("selected user changed to " + selectedUserAdName);
-            
-            if (selectedUserAdName != selectedUser.UserAd)
-            {
-                chatServerProxy.AksUsersChatHistory(me, selectedUser);
-            }*/
-        }
-
         private void txtChatInput_TextChanged(object sender, EventArgs e)
         {
 
@@ -326,16 +311,18 @@ namespace WinformClient
                 return;
             }
             //last selected index
-            
-            this.last_selectedUserIndex = lstUsers.SelectedIndex;
+            //AddMsgToChat("lstUsers_MouseClick");
+
             ChatUser selectedUser = lstUsers.SelectedItem as ChatUser;
-            //AddMsgToChat("selected user changed to " + selectedUserAdName);
-            lblChatWith.Text = "Chatting With " + selectedUser.UserHeb + "(" + selectedUser.UserAd + ")";
+            //lblChatWith.Text = "Chatting With " + selectedUser.UserHeb + "(" + selectedUser.UserAd + ")";
+            lblChatWith.Text = " מתכתב עם " + selectedUser.UserHeb + " (" + selectedUser.UserAd + ")";
             if (selectedUserAdName != selectedUser.UserAd)
             {
                 chatServerProxy.AksUsersChatHistory(me, selectedUser);
             }
-            lstChat.DataSource = new ChatDetails[0];
+            selectedUserAdName = selectedUser.UserAd;
+            //drawitem fires b4 everything, this causes re-draw
+            lstUsers.Invalidate();
         }
 
         private void txtBroadcast_TextChanged(object sender, EventArgs e)
