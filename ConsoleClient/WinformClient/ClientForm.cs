@@ -44,22 +44,6 @@ namespace WinformClient
             List<ChatUser> clientList = new List<ChatUser>(_clientList as ChatUser[]);
 
             this.me = clientList.Find(u => u.UserAd == client.clientAD);
-            /*this.me = clientList.FirstOrDefault(u => u.UserAd == client.clientAD);
-            //if null its an update by chat initiation
-            if (me == null)
-            {
-                if (me.ArshaaAdmin == false)
-                {
-                    //non admin usr, need to see only clients that r talking to him
-                    lstUsers.DataSource = clientList.ToArray();
-                }
-
-                //thats it
-                return;
-            }*/
-
-            clientList.Remove(me);
-
             lblWelcomeName.Text = "שלום " + me.UserHeb;
             lblWelcomeADName.Text = "Welcome " +  me.UserAd;
 
@@ -82,8 +66,6 @@ namespace WinformClient
             {
                 //2. if user from not in list, add him
                 chatsData.Add(from.UserAd, chatHistory);
-                //talkingToMe.Add(from);
-                //UpdateUsersList(talkingToMe.ToArray());
             }
             else
             {
@@ -94,13 +76,6 @@ namespace WinformClient
             ChatUser lstFromUser = lstUsers.Items.Cast<ChatUser>().FirstOrDefault(u => u.UserAd == from.UserAd);
             if (lstFromUser == null)
             {
-                //lstUsers.Items.Add(lstFromUser);
-                /*ChatUser[] dsUsers = lstUsers.DataSource as ChatUser[];
-                dsUsers.ToList().Insert(0, lstFromUser);
-                lstUsers.DataSource = dsUsers.ToArray();*/
-
-                //ahh, adding null ☺☻
-                //talkingToMe.Add(lstFromUser);
                 if (talkingToMe.FirstOrDefault(u => u.UserAd == from.UserAd) == null)
                 {
                     talkingToMe.Add(from);
@@ -132,21 +107,15 @@ namespace WinformClient
                 UpdateChatDataEventHanlder
             );
 
-            //lstUsers.Format += LstUsers_Format;
-            //lstUsers.DrawMode = DrawMode.OwnerDrawFixed;
             lstUsers.DrawMode = DrawMode.OwnerDrawVariable;
             lstUsers.DrawItem += LstUsers_DrawItem;
-            //lstUsers.MeasureItem += LstUsers_MeasureItem;
             lstUsers.SelectionMode = SelectionMode.One;
 
-
-            //lstChat.Format += LstChat_Format;
             lstChat.DrawMode = DrawMode.OwnerDrawVariable;
             lstChat.MeasureItem += LstChat_MeasureItem;
             lstChat.DrawItem += LstChat_DrawItem;
 
             ConnectToServer(client);
-
         }
 
         private void TxtBroadcast_KeyDown(object sender, KeyEventArgs e)
@@ -227,14 +196,6 @@ namespace WinformClient
             e.DrawFocusRectangle();
         }
 
-        /*private void LstChat_Format(object sender, ListControlConvertEventArgs e)
-        {
-            if (e.ListItem is ChatDetails)
-            {
-                e.Value = ((ChatDetails)e.ListItem).odaa;
-            }
-        }*/
-
         private void AddMsgToChat(string msg)
         {
             List<ChatDetails> ds = (lstChat.DataSource as ChatDetails[]).ToList();
@@ -255,19 +216,6 @@ namespace WinformClient
                 txtChatInput.Text = string.Empty;
             }
         }
-
-        /*private void LstUsers_Format(object sender, ListControlConvertEventArgs e)
-        {
-            //not in use if lstUsers.DrawMode = DrawMode.OwnerDrawFixed, only LstUsers_DrawItem
-            if (e.ListItem is ChatUser)
-            {
-                e.Value = ((ChatUser)e.ListItem).UserHeb;
-            }
-            else
-            {
-               e.Value = "Unknown item added";
-            }
-        }*/
 
         private void ConnectToServer(Client client)
         {
@@ -410,7 +358,6 @@ namespace WinformClient
         private sendData updateUsersList;
         private recieveChatData updateChatData;
 
-        //public string clientAD = Environment.UserDomainName + "@" + Environment.UserName;
         public string clientAD = Environment.UserName.ToLower() + "@" + Environment.UserDomainName.ToLower();
 
         public Client(sendMsg __msgDlg, 
@@ -432,13 +379,11 @@ namespace WinformClient
         public void RecieveClientsList(ChatUser[] clientList)
         {
             _sendMsg("RecieveClientsList");
-            //_sendMsg(string.Join(Environment.NewLine, clientList.Select(c=>c.UserHeb)));
             updateUsersList(clientList);
         }
 
         public void RecieveFromClient(string msg, ChatUser fromUser)
         {
-            //_sendMsg(clientName + " says " + msg);
             _sendMsg(fromUser.UserHeb + " : " + msg);
         }
 
