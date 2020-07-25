@@ -16,6 +16,8 @@ namespace WinformClient
     {
         Client client;
         ChatUser me;
+        ChatUser[] allUsers = new ChatUser[0];
+        List<ChatUser> talkingToMe = new List<ChatUser>();
         //ChatUser _selectedUser;
         IServer chatServerProxy;
         private DuplexChannelFactory<IServer> channel;
@@ -25,23 +27,52 @@ namespace WinformClient
 
         private Dictionary<string, ChatDetails[]> chatsData = new Dictionary<string, ChatDetails[]>();
 
-        public ClientForm()
+        public ClientForm(bool devmode)
         {
             InitializeComponent();
             lstChat.DataSource = new ChatDetails[0];
+
+            btnMoshe.Visible = devmode;
+            btnRuth.Visible = devmode;
+            btnConnectAharon.Visible = devmode;
+            btnTestFlash.Visible = devmode;
         }
 
         public void UpdateUsersList(object[] _clientList)
         {
+            allUsers = _clientList as ChatUser[];
             List<ChatUser> clientList = new List<ChatUser>(_clientList as ChatUser[]);
 
             this.me = clientList.Find(u => u.UserAd == client.clientAD);
+            /*this.me = clientList.FirstOrDefault(u => u.UserAd == client.clientAD);
+            //if null its an update by chat initiation
+            if (me == null)
+            {
+                if (me.ArshaaAdmin == false)
+                {
+                    //non admin usr, need to see only clients that r talking to him
+                    lstUsers.DataSource = clientList.ToArray();
+                }
+
+                //thats it
+                return;
+            }*/
+
             clientList.Remove(me);
 
             lblWelcomeName.Text = "שלום " + me.UserHeb;
             lblWelcomeADName.Text = "Welcome " +  me.UserAd;
 
-            lstUsers.DataSource = clientList.ToArray();
+            if (me.ArshaaAdmin == true)
+            {
+                lstUsers.DataSource = clientList.ToArray();
+            }
+            else
+            {
+                txtBroadcast.Visible = false;
+                btnRefreshUsers.Visible = false;
+                lstUsers.DataSource = talkingToMe.ToArray();
+            }
         }
 
         public void UpdateChatDataEventHanlder(ChatDetails[] chatHistory, ChatUser from)
@@ -51,6 +82,8 @@ namespace WinformClient
             {
                 //2. if user from not in list, add him
                 chatsData.Add(from.UserAd, chatHistory);
+                //talkingToMe.Add(from);
+                //UpdateUsersList(talkingToMe.ToArray());
             }
             else
             {
@@ -62,9 +95,17 @@ namespace WinformClient
             if (lstFromUser == null)
             {
                 //lstUsers.Items.Add(lstFromUser);
-                ChatUser[] dsUsers = lstUsers.DataSource as ChatUser[];
+                /*ChatUser[] dsUsers = lstUsers.DataSource as ChatUser[];
                 dsUsers.ToList().Insert(0, lstFromUser);
-                lstUsers.DataSource = dsUsers.ToArray();
+                lstUsers.DataSource = dsUsers.ToArray();*/
+
+                //ahh, adding null ☺☻
+                //talkingToMe.Add(lstFromUser);
+                if (talkingToMe.FirstOrDefault(u => u.UserAd == from.UserAd) == null)
+                {
+                    talkingToMe.Add(from);
+                }
+                lstUsers.DataSource = talkingToMe.ToArray();
             }
             lstUsers.SelectedItem = lstFromUser;
 
@@ -78,13 +119,16 @@ namespace WinformClient
         private void ClientForm_Load(object sender, EventArgs e)
         {
             txtChatInput.KeyDown += TxtChatInput_KeyDown;
+            txtBroadcast.KeyDown += TxtBroadcast_KeyDown;
 
-            //define delegates
             client = new Client(
-                //msg => lstChat.Items.Add(msg),
+                //sendMsg __msgDlg,
                 AddMsgToChat,
+                //sendData updateChatListDlg
                 data => lstChat.DataSource = data,
+                //sendData updateUsersListDlg,
                 UpdateUsersList,
+                //recieveChatData updateChatDataDlg
                 UpdateChatDataEventHanlder
             );
 
@@ -103,6 +147,20 @@ namespace WinformClient
 
             ConnectToServer(client);
 
+        }
+
+        private void TxtBroadcast_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+
+                // Then Do your Thang
+                chatServerProxy.Broadcast(txtBroadcast.Text);
+                AddMsgToChat("Broadcast : " + txtBroadcast.Text);
+                txtBroadcast.Text = string.Empty;
+            }
         }
 
         private void LstChat_DrawItem(object sender, DrawItemEventArgs e)
@@ -134,7 +192,7 @@ namespace WinformClient
             if (e.Index < 0) return;
             if (e.Index == 0)
             {
-                AddMsgToChat("LstUsers_DrawItem");
+                //AddMsgToChat("LstUsers_DrawItem");
             }
 
             ChatUser u = lstUsers.Items[e.Index] as ChatUser;
@@ -315,7 +373,12 @@ namespace WinformClient
 
         private void lstUsers_MouseClick(object sender, MouseEventArgs e)
         {
+            if (lstUsers.Items.Count == 0)
+            {
+                return;
+            }
             //last selected index
+            
             this.last_selectedUserIndex = lstUsers.SelectedIndex;
             ChatUser selectedUser = lstUsers.SelectedItem as ChatUser;
             //AddMsgToChat("selected user changed to " + selectedUserAdName);
@@ -325,6 +388,17 @@ namespace WinformClient
                 chatServerProxy.AksUsersChatHistory(me, selectedUser);
             }
             lstChat.DataSource = new ChatDetails[0];
+        }
+
+        private void txtBroadcast_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnConnectAharon_Click(object sender, EventArgs e)
+        {
+            client.clientAD = "user5";
+            ConnectToServer(client);
         }
     }
 
@@ -337,7 +411,7 @@ namespace WinformClient
         private recieveChatData updateChatData;
 
         //public string clientAD = Environment.UserDomainName + "@" + Environment.UserName;
-        public string clientAD = Environment.UserName + "@" + Environment.UserDomainName;
+        public string clientAD = Environment.UserName.ToLower() + "@" + Environment.UserDomainName.ToLower();
 
         public Client(sendMsg __msgDlg, 
             sendData updateChatListDlg, 

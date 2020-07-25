@@ -54,6 +54,7 @@ namespace ConsoleServer
             server.AkskingClientsList += Server_AkskingClientsList;
             server.AksUsersChatHistoryEvent += Server_AksUsersChatHistoryEvent;
             server.ClientSayEvent += Server_ClientSayEvent;
+            server.BroadcastEvent += Broadcast;
         }
 
         private void Server_ClientSayEvent(string msg, ChatUser from, ChatUser to)
@@ -155,7 +156,7 @@ namespace ConsoleServer
         {
             verifyList();
             foreach (KeyValuePair<string, ClientInstance> KVP in myClients)
-                KVP.Value.client.PrintBroadcastMessage(msg);
+                KVP.Value.client.PrintBroadcastMessage("Broadcast : " + msg);
         }
 
         public ChatUser[] GetConnectedUsersList()

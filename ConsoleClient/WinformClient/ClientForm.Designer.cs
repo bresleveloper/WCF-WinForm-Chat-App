@@ -28,10 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ClientForm));
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label3 = new System.Windows.Forms.Label();
             this.lstChat = new System.Windows.Forms.ListBox();
             this.lstUsers = new System.Windows.Forms.ListBox();
@@ -46,43 +42,10 @@
             this.txtChatInput = new System.Windows.Forms.TextBox();
             this.btnTestFlash = new System.Windows.Forms.Button();
             this.lblChatWith = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.txtBroadcast = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.btnConnectAharon = new System.Windows.Forms.Button();
             this.SuspendLayout();
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Monotype Corsiva", 12F, System.Drawing.FontStyle.Italic);
-            this.label2.Location = new System.Drawing.Point(899, 746);
-            this.label2.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(193, 18);
-            this.label2.TabIndex = 16;
-            this.label2.Text = "https://www.bresleveloper.co.il";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Monotype Corsiva", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(825, 716);
-            this.label1.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(267, 18);
-            this.label1.TabIndex = 15;
-            this.label1.Text = "Created just for you by Bresleveloper Digital";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(1104, 660);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(6);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(122, 117);
-            this.pictureBox1.TabIndex = 14;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // label3
             // 
@@ -91,9 +54,9 @@
             this.label3.Location = new System.Drawing.Point(519, 26);
             this.label3.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(98, 25);
+            this.label3.Size = new System.Drawing.Size(197, 25);
             this.label3.TabIndex = 17;
-            this.label3.Text = "Chat Client";
+            this.label3.Text = "תוכנת התכתבות צ\'אט";
             // 
             // lstChat
             // 
@@ -128,29 +91,29 @@
             this.lblUsers.Location = new System.Drawing.Point(969, 53);
             this.lblUsers.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.lblUsers.Name = "lblUsers";
-            this.lblUsers.Size = new System.Drawing.Size(131, 25);
+            this.lblUsers.Size = new System.Drawing.Size(161, 25);
             this.lblUsers.TabIndex = 20;
-            this.lblUsers.Text = "Available Users";
+            this.lblUsers.Text = "רשימת משתתפים";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Monotype Corsiva", 15.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(52, 149);
+            this.label4.Location = new System.Drawing.Point(622, 149);
             this.label4.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(117, 25);
+            this.label4.Size = new System.Drawing.Size(136, 25);
             this.label4.TabIndex = 21;
-            this.label4.Text = "Chat Window";
+            this.label4.Text = "חלון התכתבות";
             // 
             // btnRefreshUsers
             // 
             this.btnRefreshUsers.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btnRefreshUsers.Location = new System.Drawing.Point(1125, 41);
+            this.btnRefreshUsers.Location = new System.Drawing.Point(1155, 41);
             this.btnRefreshUsers.Name = "btnRefreshUsers";
-            this.btnRefreshUsers.Size = new System.Drawing.Size(85, 37);
+            this.btnRefreshUsers.Size = new System.Drawing.Size(55, 37);
             this.btnRefreshUsers.TabIndex = 22;
-            this.btnRefreshUsers.Text = "Refresh";
+            this.btnRefreshUsers.Text = "רענן";
             this.btnRefreshUsers.UseVisualStyleBackColor = true;
             this.btnRefreshUsers.Click += new System.EventHandler(this.btnRefreshUsers_Click);
             // 
@@ -161,7 +124,7 @@
             this.btnConnect.Name = "btnConnect";
             this.btnConnect.Size = new System.Drawing.Size(144, 37);
             this.btnConnect.TabIndex = 23;
-            this.btnConnect.Text = "Connect To Server";
+            this.btnConnect.Text = "התחבר לשרת מחדש";
             this.btnConnect.UseVisualStyleBackColor = true;
             this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
             // 
@@ -191,36 +154,37 @@
             // 
             this.lblWelcomeName.AutoSize = true;
             this.lblWelcomeName.Font = new System.Drawing.Font("Monotype Corsiva", 15.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblWelcomeName.Location = new System.Drawing.Point(58, 68);
+            this.lblWelcomeName.Location = new System.Drawing.Point(653, 82);
             this.lblWelcomeName.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.lblWelcomeName.Name = "lblWelcomeName";
-            this.lblWelcomeName.Size = new System.Drawing.Size(82, 25);
+            this.lblWelcomeName.Size = new System.Drawing.Size(63, 25);
             this.lblWelcomeName.TabIndex = 26;
-            this.lblWelcomeName.Text = "Welcome ";
+            this.lblWelcomeName.Text = "שלום ";
             // 
             // lblWelcomeADName
             // 
             this.lblWelcomeADName.AutoSize = true;
             this.lblWelcomeADName.Font = new System.Drawing.Font("Monotype Corsiva", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblWelcomeADName.Location = new System.Drawing.Point(60, 93);
+            this.lblWelcomeADName.Location = new System.Drawing.Point(655, 107);
             this.lblWelcomeADName.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.lblWelcomeADName.Name = "lblWelcomeADName";
-            this.lblWelcomeADName.Size = new System.Drawing.Size(50, 15);
+            this.lblWelcomeADName.Size = new System.Drawing.Size(33, 15);
             this.lblWelcomeADName.TabIndex = 27;
-            this.lblWelcomeADName.Text = "Welcome ";
+            this.lblWelcomeADName.Text = "שלום ";
             // 
             // txtChatInput
             // 
             this.txtChatInput.Location = new System.Drawing.Point(56, 605);
+            this.txtChatInput.Multiline = true;
             this.txtChatInput.Name = "txtChatInput";
-            this.txtChatInput.Size = new System.Drawing.Size(855, 26);
+            this.txtChatInput.Size = new System.Drawing.Size(855, 68);
             this.txtChatInput.TabIndex = 28;
             this.txtChatInput.TextChanged += new System.EventHandler(this.txtChatInput_TextChanged);
             // 
             // btnTestFlash
             // 
             this.btnTestFlash.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btnTestFlash.Location = new System.Drawing.Point(355, 727);
+            this.btnTestFlash.Location = new System.Drawing.Point(524, 726);
             this.btnTestFlash.Name = "btnTestFlash";
             this.btnTestFlash.Size = new System.Drawing.Size(144, 37);
             this.btnTestFlash.TabIndex = 29;
@@ -232,18 +196,52 @@
             // 
             this.lblChatWith.AutoSize = true;
             this.lblChatWith.Font = new System.Drawing.Font("Monotype Corsiva", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblChatWith.Location = new System.Drawing.Point(176, 154);
+            this.lblChatWith.Location = new System.Drawing.Point(521, 154);
             this.lblChatWith.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.lblChatWith.Name = "lblChatWith";
-            this.lblChatWith.Size = new System.Drawing.Size(94, 18);
+            this.lblChatWith.Size = new System.Drawing.Size(88, 18);
             this.lblChatWith.TabIndex = 30;
-            this.lblChatWith.Text = "Chatting With ";
+            this.lblChatWith.Text = "מתכתב עם ";
+            // 
+            // txtBroadcast
+            // 
+            this.txtBroadcast.Location = new System.Drawing.Point(974, 605);
+            this.txtBroadcast.Multiline = true;
+            this.txtBroadcast.Name = "txtBroadcast";
+            this.txtBroadcast.Size = new System.Drawing.Size(237, 68);
+            this.txtBroadcast.TabIndex = 31;
+            this.txtBroadcast.TextChanged += new System.EventHandler(this.txtBroadcast_TextChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Monotype Corsiva", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(1123, 584);
+            this.label1.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(88, 18);
+            this.label1.TabIndex = 32;
+            this.label1.Text = "כתוב לכולם";
+            // 
+            // btnConnectAharon
+            // 
+            this.btnConnectAharon.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.btnConnectAharon.Location = new System.Drawing.Point(348, 726);
+            this.btnConnectAharon.Name = "btnConnectAharon";
+            this.btnConnectAharon.Size = new System.Drawing.Size(144, 37);
+            this.btnConnectAharon.TabIndex = 33;
+            this.btnConnectAharon.Text = "Connect As Aharon";
+            this.btnConnectAharon.UseVisualStyleBackColor = true;
+            this.btnConnectAharon.Click += new System.EventHandler(this.btnConnectAharon_Click);
             // 
             // ClientForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1223, 775);
+            this.Controls.Add(this.btnConnectAharon);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.txtBroadcast);
             this.Controls.Add(this.lblChatWith);
             this.Controls.Add(this.btnTestFlash);
             this.Controls.Add(this.txtChatInput);
@@ -258,25 +256,17 @@
             this.Controls.Add(this.lstUsers);
             this.Controls.Add(this.lstChat);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.pictureBox1);
             this.Font = new System.Drawing.Font("Times New Roman", 12F);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "ClientForm";
-            this.Text = "WinForm Chat Client - by Bresleveloper Digital";
+            this.Text = "תוכנת התכתבות צ\'אט";
             this.Load += new System.EventHandler(this.ClientForm_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ListBox lstChat;
         private System.Windows.Forms.ListBox lstUsers;
@@ -291,6 +281,9 @@
         private System.Windows.Forms.TextBox txtChatInput;
         private System.Windows.Forms.Button btnTestFlash;
         private System.Windows.Forms.Label lblChatWith;
+        private System.Windows.Forms.TextBox txtBroadcast;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button btnConnectAharon;
     }
 }
 

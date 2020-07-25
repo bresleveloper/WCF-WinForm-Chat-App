@@ -43,5 +43,11 @@ namespace ConsoleServer
         {
             ClientSayEvent(msg, clientFrom, clientTo);
         }
+
+        public event sendMsg BroadcastEvent;
+        public void Broadcast(string msg)
+        {
+            BroadcastEvent(msg);
+        }
     }
 }

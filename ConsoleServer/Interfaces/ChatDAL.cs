@@ -12,7 +12,12 @@ namespace Interfaces
         public static ChatUser[] GetUsersList()
         {
             DAL.exec("[dbo].[StartChat]");
-            return DAL.select<ChatUser>("SELECT * FROM [datatormim].[dbo].[ChatUser]");
+            ChatUser[] users = DAL.select<ChatUser>("SELECT * FROM [datatormim].[dbo].[ChatUser]");
+            for (int i = 0; i < users.Length; i++)
+            {
+                users[i].UserAd = users[i].UserAd.ToLower();
+            }
+            return users;
         }
 
         public static ChatDetails[] GetChatDetailsForUsers(ChatUser a, ChatUser b)

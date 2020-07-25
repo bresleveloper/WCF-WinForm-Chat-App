@@ -22,5 +22,8 @@ namespace Interfaces
         [OperationContract(IsOneWay = true)]
         void AksUsersChatHistory(ChatUser a, ChatUser b);
 
+        [OperationContract(IsOneWay = true)]
+        void Broadcast(string msg);
+
     }
 }

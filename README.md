@@ -6,12 +6,11 @@
 2. Clone the GIT
 3. Open your localhost Sql Server and run `ChatManager.sql` 
 4. Go to `ConsoleServer/WinformServer/bin/Debug` and run once `WinformServer.exe`
-5. Go to `ConsoleClient/WinformClient/bin/Debug` and run `WinformClient.exe` an click `Connect as Moshe`
-6. run `WinformClient.exe` again an click `Connect as Ruth`
-7. Chat!
+5. Go to `ConsoleClient/WinformClient/bin/Debug` and run `_quadro.bat`, that will open 5 instances of the client app, click on `Connect as Moshe` ect. (must run as `WinformClient.exe dev` to see `Connect as` buttons
+6. Chat!
 
 #### Bonus
-`_trio.bat` runs 3 `WinformClient.exe`, added inside `ConsoleClient/WinformClient/bin/Debug`
+`_quadro.bat` runs 4 `WinformClient.exe`, added inside `ConsoleClient/WinformClient/bin/Debug`
 
 
 ## How to use it for yourself?

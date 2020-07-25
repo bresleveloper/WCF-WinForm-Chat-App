@@ -43,5 +43,10 @@ namespace ConsoleServer
         {
             throw new NotImplementedException();
         }
+
+        public void Broadcast(string msg)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

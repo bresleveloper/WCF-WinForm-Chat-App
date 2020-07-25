@@ -3,7 +3,6 @@ C:\Users\admin\source\repos\ChatManager\ConsoleClient\ConsoleClient\bin\Debug\Co
 C:\Users\admin\source\repos\ChatManager\ConsoleClient\ConsoleClient\bin\Debug\ConsoleClient.pdb
 C:\Users\admin\source\repos\ChatManager\ConsoleClient\ConsoleClient\bin\Debug\Interfaces.dll
 C:\Users\admin\source\repos\ChatManager\ConsoleClient\ConsoleClient\bin\Debug\Interfaces.pdb
-C:\Users\admin\source\repos\ChatManager\ConsoleClient\ConsoleClient\obj\Debug\ConsoleClient.csprojResolveAssemblyReference.cache
 C:\Users\admin\source\repos\ChatManager\ConsoleClient\ConsoleClient\obj\Debug\ConsoleClient.csproj.CoreCompileInputs.cache
 C:\Users\admin\source\repos\ChatManager\ConsoleClient\ConsoleClient\obj\Debug\ConsoleClient.exe
 C:\Users\admin\source\repos\ChatManager\ConsoleClient\ConsoleClient\obj\Debug\ConsoleClient.pdb
