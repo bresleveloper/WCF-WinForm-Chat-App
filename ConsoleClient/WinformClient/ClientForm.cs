@@ -221,12 +221,12 @@ namespace WinformClient
                 {
                     chatServerProxy.ClientSay(txtChatInput.Text, me, lstUsers.SelectedItem as ChatUser);
                     AddMsgToChat(me.UserHeb + " : " + txtChatInput.Text);
+                    txtChatInput.Text = string.Empty;
                 }
                 catch (Exception ex)
                 {
                     AddMsgToChat("לא בחרת יוזר");
                 }
-
                 txtChatInput.Text = string.Empty;
             }
         }
