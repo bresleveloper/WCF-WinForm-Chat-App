@@ -209,6 +209,8 @@ namespace WinformClient
         {
             if (lstUsers.Items.Count == 0 || lstUsers.SelectedItem == null)
             {
+                txtChatInput.Text = string.Empty;
+                AddMsgToChat("בחר שם להשיב");
                 return;
             }
             if (e.KeyCode == Keys.Enter)
