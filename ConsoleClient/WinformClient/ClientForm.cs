@@ -35,6 +35,7 @@ namespace WinformClient
             btnRuth.Visible = devmode;
             btnConnectAharon.Visible = devmode;
             btnTestFlash.Visible = devmode;
+
         }
 
         private void ClientForm_Load(object sender, EventArgs e)
@@ -46,7 +47,7 @@ namespace WinformClient
                 //sendMsg __msgDlg,
                 AddMsgToChat,
                 //sendData updateChatListDlg
-                data => lstChat.DataSource = data,
+                data => lstChat.DataSource = data.Reverse(),
                 //sendData updateUsersListDlg,
                 UpdateUsersList,
                 //recieveChatData updateChatDataDlg
@@ -112,12 +113,12 @@ namespace WinformClient
                 {
                     talkingToMe.Add(from);
                 }
-                lstUsers.DataSource = talkingToMe.ToArray();
+                lstUsers.DataSource = talkingToMe.ToArray().Reverse();
             }
             lstUsers.SelectedItem = lstFromUser;
 
             //4. update the chat
-            lstChat.DataSource = chatsData[from.UserAd];
+            lstChat.DataSource = chatsData[from.UserAd].Reverse();
             lblChatWith.Text = " מתכתב עם " + from.UserHeb + " (" + from.UserAd + ")";
 
 
@@ -201,7 +202,9 @@ namespace WinformClient
         private void AddMsgToChat(string msg)
         {
             List<ChatDetails> ds = (lstChat.DataSource as ChatDetails[]).ToList();
-            ds.Add(new ChatDetails() { odaa = msg });
+            ds.Insert(0, new ChatDetails() { odaa = msg });
+            //ds.Add(new ChatDetails() { odaa = msg });
+            //lstChat.DataSource = ds.ToArray().Reverse();new ChatDetails() { odaa = msg });
             lstChat.DataSource = ds.ToArray();
         }
 

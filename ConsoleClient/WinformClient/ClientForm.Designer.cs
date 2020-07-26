@@ -67,6 +67,7 @@
             this.lstChat.Location = new System.Drawing.Point(57, 178);
             this.lstChat.Margin = new System.Windows.Forms.Padding(4);
             this.lstChat.Name = "lstChat";
+            this.lstChat.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.lstChat.Size = new System.Drawing.Size(854, 403);
             this.lstChat.TabIndex = 18;
             this.lstChat.SelectedIndexChanged += new System.EventHandler(this.lstChat_SelectedIndexChanged);
@@ -79,6 +80,7 @@
             this.lstUsers.Location = new System.Drawing.Point(974, 82);
             this.lstUsers.Margin = new System.Windows.Forms.Padding(4);
             this.lstUsers.Name = "lstUsers";
+            this.lstUsers.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.lstUsers.Size = new System.Drawing.Size(236, 498);
             this.lstUsers.TabIndex = 19;
             this.lstUsers.MouseClick += new System.Windows.Forms.MouseEventHandler(this.lstUsers_MouseClick);
