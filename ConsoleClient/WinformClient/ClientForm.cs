@@ -23,6 +23,8 @@ namespace WinformClient
         private DuplexChannelFactory<IServer> channel;
         private string selectedUserAdName = string.Empty;
 
+        private string errorMsg = "*בחר שם להשיב או לחץ על התחבר מחדש";
+
 
         private Dictionary<string, ChatDetails[]> chatsData = new Dictionary<string, ChatDetails[]>();
 
@@ -51,7 +53,8 @@ namespace WinformClient
                 //sendData updateUsersListDlg,
                 UpdateUsersList,
                 //recieveChatData updateChatDataDlg
-                UpdateChatDataEventHanlder
+                UpdateChatDataEventHanlder,
+                () => btnTestFlash_Click(null, null)
             );
 
             lstUsers.DrawMode = DrawMode.OwnerDrawVariable;
@@ -213,7 +216,7 @@ namespace WinformClient
             if (lstUsers.Items.Count == 0 || lstUsers.SelectedItem == null)
             {
                 txtChatInput.Text = string.Empty;
-                AddMsgToChat("בחר שם להשיב");
+                AddMsgToChat(errorMsg);
                 return;
             }
             if (e.KeyCode == Keys.Enter)
@@ -230,7 +233,7 @@ namespace WinformClient
                 }
                 catch (Exception ex)
                 {
-                    AddMsgToChat("בחר שם להשיב");
+                    AddMsgToChat(errorMsg);
                 }
                 txtChatInput.Text = string.Empty;
             }
@@ -309,6 +312,7 @@ namespace WinformClient
 
         private void btnTestFlash_Click(object sender, EventArgs e)
         {
+            /*
             var timer = new System.Windows.Forms.Timer();
             timer.Interval = 3000;
             timer.Tick += delegate (object osender, EventArgs args)
@@ -319,6 +323,12 @@ namespace WinformClient
                 timer.Stop();
             };
             timer.Start();
+            */
+
+            this.WindowState = FormWindowState.Normal;
+            this.Activate();
+            FlashWindow.Flash(this);
+
         }
 
         private void lstChat_SelectedIndexChanged(object sender, EventArgs e)
@@ -346,7 +356,7 @@ namespace WinformClient
                 }
                 catch (Exception ex)
                 {
-                    AddMsgToChat("בחר שם להשיב*");
+                    AddMsgToChat(errorMsg);
                 }
             }
             selectedUserAdName = selectedUser.UserAd;
@@ -373,18 +383,21 @@ namespace WinformClient
         private sendData updateChatList;
         private sendData updateUsersList;
         private recieveChatData updateChatData;
+        private Action flash;
 
         public string clientAD = Environment.UserName.ToLower() + "@" + Environment.UserDomainName.ToLower();
 
         public Client(sendMsg __msgDlg, 
             sendData updateChatListDlg, 
             sendData updateUsersListDlg,
-            recieveChatData updateChatDataDlg)
+            recieveChatData updateChatDataDlg,
+            Action flashDlg)
         {
             _sendMsg = __msgDlg;
             updateChatList = updateChatListDlg;
             updateUsersList = updateUsersListDlg;
             updateChatData = updateChatDataDlg;
+            flash = flashDlg;
         }
 
         public void PrintBroadcastMessage(string msg)
@@ -401,6 +414,7 @@ namespace WinformClient
         public void RecieveFromClient(string msg, ChatUser fromUser)
         {
             _sendMsg(fromUser.UserHeb + " : " + msg);
+            flash();
         }
 
         public void RecieveUsersChatHistory(ChatDetails[] chatHistory, ChatUser from)
