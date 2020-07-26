@@ -217,8 +217,16 @@ namespace WinformClient
                 e.SuppressKeyPress = true;
 
                 // Then Do your Thang
-                chatServerProxy.ClientSay(txtChatInput.Text, me, lstUsers.SelectedItem as ChatUser);
-                AddMsgToChat(me.UserHeb + " : " + txtChatInput.Text);
+                try
+                {
+                    chatServerProxy.ClientSay(txtChatInput.Text, me, lstUsers.SelectedItem as ChatUser);
+                    AddMsgToChat(me.UserHeb + " : " + txtChatInput.Text);
+                }
+                catch (Exception ex)
+                {
+                    AddMsgToChat("לא בחרת יוזר");
+                }
+
                 txtChatInput.Text = string.Empty;
             }
         }
