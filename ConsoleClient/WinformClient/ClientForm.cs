@@ -230,7 +230,7 @@ namespace WinformClient
                 }
                 catch (Exception ex)
                 {
-                    AddMsgToChat("לא בחרת יוזר");
+                    AddMsgToChat("בחר שם להשיב");
                 }
                 txtChatInput.Text = string.Empty;
             }
@@ -340,7 +340,14 @@ namespace WinformClient
             lblChatWith.Text = " מתכתב עם " + selectedUser.UserHeb + " (" + selectedUser.UserAd + ")";
             if (selectedUserAdName != selectedUser.UserAd)
             {
-                chatServerProxy.AksUsersChatHistory(me, selectedUser);
+                try
+                {
+                    chatServerProxy.AksUsersChatHistory(me, selectedUser);
+                }
+                catch (Exception ex)
+                {
+                    AddMsgToChat("בחר שם להשיב*");
+                }
             }
             selectedUserAdName = selectedUser.UserAd;
             //drawitem fires b4 everything, this causes re-draw
