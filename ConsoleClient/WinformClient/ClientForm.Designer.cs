@@ -176,6 +176,7 @@
             this.txtChatInput.Location = new System.Drawing.Point(56, 605);
             this.txtChatInput.Multiline = true;
             this.txtChatInput.Name = "txtChatInput";
+            this.txtChatInput.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.txtChatInput.Size = new System.Drawing.Size(855, 68);
             this.txtChatInput.TabIndex = 28;
             this.txtChatInput.TextChanged += new System.EventHandler(this.txtChatInput_TextChanged);
@@ -207,6 +208,7 @@
             this.txtBroadcast.Location = new System.Drawing.Point(974, 605);
             this.txtBroadcast.Multiline = true;
             this.txtBroadcast.Name = "txtBroadcast";
+            this.txtBroadcast.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.txtBroadcast.Size = new System.Drawing.Size(237, 68);
             this.txtBroadcast.TabIndex = 31;
             this.txtBroadcast.TextChanged += new System.EventHandler(this.txtBroadcast_TextChanged);

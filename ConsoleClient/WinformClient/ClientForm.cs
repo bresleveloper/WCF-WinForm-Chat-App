@@ -78,6 +78,9 @@ namespace WinformClient
             if (me.ArshaaAdmin == true)
             {
                 lstUsers.DataSource = clientList.ToArray();
+                txtBroadcast.Visible = true;
+                lblBroadcast.Visible = true;
+                btnRefreshUsers.Visible = true;
             }
             else
             {
@@ -142,7 +145,8 @@ namespace WinformClient
 
             string value = ((ChatDetails)lstChat.Items[e.Index]).odaa;
             e.DrawBackground();
-            e.Graphics.DrawString(value, e.Font, new SolidBrush(e.ForeColor), e.Bounds);
+            e.Graphics.DrawString(value, e.Font, new SolidBrush(e.ForeColor), e.Bounds, 
+                new StringFormat(StringFormatFlags.DirectionRightToLeft));
         }
 
         private void LstChat_MeasureItem(object sender, MeasureItemEventArgs e)
@@ -189,7 +193,8 @@ namespace WinformClient
             //value += " - " + u.NumOved + " - " + e.Index + " - " + lstUsers.SelectedIndex + " - " + last_selectedUserIndex;
             //value += " - " + selectedUserAdName;
 
-            e.Graphics.DrawString(value, e.Font, foreBrush, e.Bounds);
+            e.Graphics.DrawString(value, e.Font, foreBrush, e.Bounds,
+                new StringFormat(StringFormatFlags.DirectionRightToLeft));
             e.DrawFocusRectangle();
         }
 
@@ -202,6 +207,10 @@ namespace WinformClient
 
         private void TxtChatInput_KeyDown(object sender, KeyEventArgs e)
         {
+            if (lstUsers.Items.Count == 0 || lstUsers.SelectedItem == null)
+            {
+                return;
+            }
             if (e.KeyCode == Keys.Enter)
             {
                 e.Handled = true;
