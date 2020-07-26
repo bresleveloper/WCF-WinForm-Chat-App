@@ -25,6 +25,10 @@ namespace WinformClient
 
         private string errorMsg = "*בחר שם להשיב או לחץ על התחבר מחדש";
 
+        private T[] reverseArr<T>(T[] arr)
+        {
+            return arr.Reverse().ToArray();
+        }
 
         private Dictionary<string, ChatDetails[]> chatsData = new Dictionary<string, ChatDetails[]>();
 
@@ -49,7 +53,7 @@ namespace WinformClient
                 //sendMsg __msgDlg,
                 AddMsgToChat,
                 //sendData updateChatListDlg
-                data => lstChat.DataSource = data.Reverse(),
+                data => lstChat.DataSource = reverseArr(data as ChatDetails[]),
                 //sendData updateUsersListDlg,
                 UpdateUsersList,
                 //recieveChatData updateChatDataDlg
@@ -116,12 +120,13 @@ namespace WinformClient
                 {
                     talkingToMe.Add(from);
                 }
-                lstUsers.DataSource = talkingToMe.ToArray().Reverse();
+
+                lstUsers.DataSource = reverseArr(talkingToMe.ToArray());
             }
             lstUsers.SelectedItem = lstFromUser;
 
             //4. update the chat
-            lstChat.DataSource = chatsData[from.UserAd].Reverse();
+            lstChat.DataSource = reverseArr(chatsData[from.UserAd]);
             lblChatWith.Text = " מתכתב עם " + from.UserHeb + " (" + from.UserAd + ")";
 
 
@@ -206,8 +211,6 @@ namespace WinformClient
         {
             List<ChatDetails> ds = (lstChat.DataSource as ChatDetails[]).ToList();
             ds.Insert(0, new ChatDetails() { odaa = msg });
-            //ds.Add(new ChatDetails() { odaa = msg });
-            //lstChat.DataSource = ds.ToArray().Reverse();new ChatDetails() { odaa = msg });
             lstChat.DataSource = ds.ToArray();
         }
 
@@ -313,7 +316,7 @@ namespace WinformClient
         private void btnTestFlash_Click(object sender, EventArgs e)
         {
             
-            var timer = new System.Windows.Forms.Timer();
+            /*var timer = new System.Windows.Forms.Timer();
             timer.Interval = 3000;
             timer.Tick += delegate (object osender, EventArgs args)
             {
@@ -322,12 +325,12 @@ namespace WinformClient
                 FlashWindow.Flash(this);
                 timer.Stop();
             };
-            timer.Start();
+            timer.Start();*/
             
 
-            /*this.WindowState = FormWindowState.Normal;
+            this.WindowState = FormWindowState.Normal;
             this.Activate();
-            FlashWindow.Flash(this);*/
+            FlashWindow.Flash(this);
 
         }
 
@@ -419,7 +422,7 @@ namespace WinformClient
 
         public void RecieveUsersChatHistory(ChatDetails[] chatHistory, ChatUser from)
         {
-            //_sendMsg("updateChatData");
+            _sendMsg("updateChatData");
             updateChatData(chatHistory, from);
         }
 
