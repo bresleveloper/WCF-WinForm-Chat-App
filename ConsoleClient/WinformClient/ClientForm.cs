@@ -312,7 +312,7 @@ namespace WinformClient
 
         private void btnTestFlash_Click(object sender, EventArgs e)
         {
-            /*
+            
             var timer = new System.Windows.Forms.Timer();
             timer.Interval = 3000;
             timer.Tick += delegate (object osender, EventArgs args)
@@ -323,11 +323,11 @@ namespace WinformClient
                 timer.Stop();
             };
             timer.Start();
-            */
+            
 
-            this.WindowState = FormWindowState.Normal;
+            /*this.WindowState = FormWindowState.Normal;
             this.Activate();
-            FlashWindow.Flash(this);
+            FlashWindow.Flash(this);*/
 
         }
 
@@ -419,7 +419,7 @@ namespace WinformClient
 
         public void RecieveUsersChatHistory(ChatDetails[] chatHistory, ChatUser from)
         {
-            _sendMsg("updateChatData");
+            //_sendMsg("updateChatData");
             updateChatData(chatHistory, from);
         }
 
