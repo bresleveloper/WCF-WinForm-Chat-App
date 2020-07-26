@@ -42,6 +42,15 @@ namespace WinformClient
             btnConnectAharon.Visible = devmode;
             btnTestFlash.Visible = devmode;
 
+            this.FormClosing += ClientForm_FormClosing;
+        }
+
+        private void ClientForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (me.ArshaaAdmin == false)
+            {
+                e.Cancel = true;
+            }
         }
 
         private void ClientForm_Load(object sender, EventArgs e)
