@@ -60,10 +60,10 @@ namespace ConsoleServer
         private void Server_ClientSayEvent(string msg, ChatUser from, ChatUser to)
         {
             verifyList();
-            if (IsChatClientsConnected(from, to) == false)
+            /*if (IsChatClientsConnected(from, to) == false)
             {
                 return;
-            }
+            }*/
 
             ChatDetails chatItem = new ChatDetails()
             {
@@ -81,22 +81,38 @@ namespace ConsoleServer
             int id = DAL.insert<ChatDetails>("ChatDetail", chatItem);
             chatItem.id = id;
 
-            myClients[to.UserAd].client.RecieveFromClient(msg, from);
-        }
-
-        private void Server_AksUsersChatHistoryEvent(ChatUser a, ChatUser b)
-        {
-            verifyList();
-            if (IsChatClientsConnected(a,b) == false)
+            if (IsChatClientsConnected(from, to) == true)
             {
-                return;
+                myClients[to.UserAd].client.RecieveFromClient(msg, from);
             }
 
+            ChatDAL.UpdateUserChatDetailsToRead(from, to);
+        }
+
+        private void Server_AksUsersChatHistoryEvent(ChatUser askingUser, ChatUser targetUser)
+        {
+            verifyList();
+            /*if (IsChatClientsConnected(a,b) == false)
+            {
+                return;
+            }*/
+
+            //0. update that the asking user has read the chat, although he is going to read in a few seconds
+            ChatDAL.UpdateUserChatDetailsToRead(askingUser, targetUser);
+
             //1. get history form db
-            ChatDetails[] chatHistory = ChatDAL.GetChatDetailsForUsers(a, b);
+            ChatDetails[] chatHistory = ChatDAL.GetChatDetailsForUsers(askingUser, targetUser);
             //2. send to clients
-            myClients[a.UserAd].client.RecieveUsersChatHistory(chatHistory, b);
-            myClients[b.UserAd].client.RecieveUsersChatHistory(chatHistory, a);
+            if (myClients.ContainsKey(askingUser.UserAd) == false) 
+            {
+                return;//should only happen with debug when acting as local user after opening another dev station
+                //the new station is again local user and then connect as leaving only "as" user
+            }
+            myClients[askingUser.UserAd].client.RecieveUsersChatHistory(chatHistory, targetUser);
+            if (IsChatClientsConnected(askingUser, targetUser) == true)
+            {
+                myClients[targetUser.UserAd].client.RecieveUsersChatHistory(chatHistory, askingUser);
+            }
         }
 
         private bool IsChatClientsConnected(ChatUser a, ChatUser b)
@@ -121,35 +137,35 @@ namespace ConsoleServer
             }
         }
 
-        private void Server_AkskingClientsList(IClient clientChannel)
+        private void Server_AkskingClientsList(string clientADName, IClient clientChannel)
         {
             verifyList();
-            clientChannel.RecieveClientsList(GetConnectedUsersList());
+            clientChannel.RecieveClientsList(GetConnectedUsersList(clientADName));
         }
 
-        private void Server_ClientRegistered(string clientName, IClient clientChannel)
+        private void Server_ClientRegistered(string clientADName, IClient clientChannel)
         {
-            if (myClients.ContainsKey(clientName) == true)
+            if (myClients.ContainsKey(clientADName) == true)
             {
-                myClients[clientName].client = clientChannel;
+                myClients[clientADName].client = clientChannel;
             }
             else
             {
-                myClients.Add(clientName, new ClientInstance()
+                myClients.Add(clientADName, new ClientInstance()
                 {
                     client = clientChannel,
-                    adName = clientName
+                    adName = clientADName
                 });
             }
             //Console.WriteLine("new guy - " + clientName);
             verifyList();
-            ChatUser[] actuallConnectedUsers = GetConnectedUsersList();
+            ChatUser[] actuallConnectedUsers = GetConnectedUsersList(clientADName);
 
             //foreach (ClientInstance client in myClients)
             foreach (KeyValuePair<string, ClientInstance> KVP in myClients)
                 KVP.Value.client.RecieveClientsList(actuallConnectedUsers);
 
-            sendMsgToServer(clientName + " registered at " + DateTime.Now);
+            sendMsgToServer(clientADName + " registered at " + DateTime.Now);
         }
 
         public void Broadcast(string msg)
@@ -159,10 +175,11 @@ namespace ConsoleServer
                 KVP.Value.client.PrintBroadcastMessage("Broadcast : " + msg);
         }
 
-        public ChatUser[] GetConnectedUsersList()
+        public ChatUser[] GetConnectedUsersList(string asking_clientADName)
         {
             ChatUser[] users = ChatDAL.GetUsersList();
             //List<ChatUser> connectedChatUsers = new List<ChatUser>();
+            string[] namesWithMsgs = ChatDAL.UsersADNamesThatHasUnreadMessagesForMe(asking_clientADName);
 
             foreach (ChatUser u in users)
             {
@@ -171,6 +188,7 @@ namespace ConsoleServer
                     connectedChatUsers.Add(u);
                 }*/
                 u.IsConnected = myClients.ContainsKey(u.UserAd);
+                u.HasMessageForYou = namesWithMsgs.Contains(u.UserAd);
             };
             //return connectedChatUsers.ToArray();
             return users;

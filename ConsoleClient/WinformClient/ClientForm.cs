@@ -17,11 +17,21 @@ namespace WinformClient
         Client client;
         ChatUser me;
         ChatUser[] allUsers = new ChatUser[0];
-        List<ChatUser> talkingToMe = new List<ChatUser>();
+        //List<ChatUser> talkingToMe = new List<ChatUser>();
+        Dictionary<string, ChatUser> talkingToMe = new Dictionary<string, ChatUser>();
+        private void add_talkingToMe(ChatUser u)
+        {
+            if (talkingToMe.ContainsKey(u.UserAd) == false)
+            {
+                talkingToMe.Add(u.UserAd, u);
+            }
+        }
+
         //ChatUser _selectedUser;
         IServer chatServerProxy;
         private DuplexChannelFactory<IServer> channel;
         private string selectedUserAdName = string.Empty;
+        private bool selected_user = false;
 
         private string errorMsg = "*בחר שם להשיב או לחץ על התחבר מחדש";
 
@@ -42,7 +52,10 @@ namespace WinformClient
             btnConnectAharon.Visible = devmode;
             btnTestFlash.Visible = devmode;
 
-            this.FormClosing += ClientForm_FormClosing;
+            if (devmode == false)
+            {
+                this.FormClosing += ClientForm_FormClosing;
+            }
         }
 
         private void ClientForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -67,6 +80,8 @@ namespace WinformClient
                 UpdateUsersList,
                 //recieveChatData updateChatDataDlg
                 UpdateChatDataEventHanlder,
+                //recieveClientSay
+                UpdateClientSayHanlder,
                 () => btnTestFlash_Click(null, null)
             );
 
@@ -81,9 +96,22 @@ namespace WinformClient
             ConnectToServer(client);
         }
 
+        public void UpdateClientSayHanlder(string msg, ChatUser fromUser)
+        {
+            if (selectedUserAdName == fromUser.UserAd)
+            {
+                AddMsgToChat(msg);
+            }
+            else
+            {
+                List<ChatUser> ds = (lstUsers.DataSource as ChatUser[]).ToList();
+                ds.Find(u => u.UserAd == fromUser.UserAd).HasMessageForYou = true;
+            }
+        }
+
         public void UpdateUsersList(object[] _clientList)
         {
-            allUsers = _clientList as ChatUser[];
+            //allUsers = _clientList as ChatUser[];
             List<ChatUser> clientList = new List<ChatUser>(_clientList as ChatUser[]);
 
             this.me = clientList.Find(u => u.UserAd == client.clientAD);
@@ -104,7 +132,16 @@ namespace WinformClient
                 txtBroadcast.Visible = false;
                 lblBroadcast.Visible = false;
                 btnRefreshUsers.Visible = false;
-                lstUsers.DataSource = talkingToMe.ToArray();
+
+                IEnumerable<ChatUser> tempNewWithMsg = clientList.Where(c => c.HasMessageForYou == true).ToList();
+                foreach (ChatUser u in tempNewWithMsg)
+                {
+                    add_talkingToMe(u);
+                }
+
+                lstUsers.DataSource = talkingToMe.Values.ToArray();
+                //here i need to test who was trying to talk to me while i was closed
+                //IEnumerable<ChatUser> adminz = clientList.Where(c => c.ArshaaAdmin == true);
             }
         }
 
@@ -125,19 +162,19 @@ namespace WinformClient
             ChatUser lstFromUser = lstUsers.Items.Cast<ChatUser>().FirstOrDefault(u => u.UserAd == from.UserAd);
             if (lstFromUser == null)
             {
-                if (talkingToMe.FirstOrDefault(u => u.UserAd == from.UserAd) == null)
-                {
-                    talkingToMe.Add(from);
-                }
-
-                lstUsers.DataSource = reverseArr(talkingToMe.ToArray());
+                add_talkingToMe(from);
+                lstUsers.DataSource = reverseArr(talkingToMe.Values.ToArray());
             }
             lstUsers.SelectedItem = lstFromUser;
 
             //4. update the chat
-            lstChat.DataSource = reverseArr(chatsData[from.UserAd]);
-            lblChatWith.Text = " מתכתב עם " + from.UserHeb + " (" + from.UserAd + ")";
-
+            //lstChat.DataSource = reverseArr(chatsData[from.UserAd]);
+            //lblChatWith.Text = " מתכתב עם " + from.UserHeb + " (" + from.UserAd + ")";
+            if (selectedUserAdName == from.UserAd)
+            {
+                lstChat.DataSource = reverseArr(chatsData[from.UserAd]);
+                lblChatWith.Text = " מתכתב עם " + from.UserHeb + " (" + from.UserAd + ")";
+            }
 
             //5. if history has more recent item than in cache, make highlight
             btnTestFlash_Click(null, null);
@@ -198,10 +235,30 @@ namespace WinformClient
             Brush bgBrush = u.IsConnected ? Brushes.White : Brushes.DarkGray;
             Brush foreBrush = Brushes.Black;
 
-            if (u.IsConnected && u.UserAd == selectedUserAdName)
+
+            /*if (u.IsConnected && u.UserAd == selectedUserAdName)
             {
                 bgBrush = SystemBrushes.Highlight;
                 foreBrush = Brushes.White;
+            }*/
+            if (u.UserAd == selectedUserAdName)
+            {
+                if (u.IsConnected == true)
+                {
+                    bgBrush = SystemBrushes.Highlight;
+                    foreBrush = Brushes.White;
+                }
+                else
+                {
+                    bgBrush = Brushes.PowderBlue;
+                    foreBrush = Brushes.Black;
+                }
+            }
+
+            if (u.HasMessageForYou == true)
+            {
+                bgBrush = Brushes.LightYellow;
+                foreBrush = Brushes.Black;
             }
 
             e.Graphics.FillRectangle(bgBrush, e.Bounds);
@@ -225,6 +282,12 @@ namespace WinformClient
 
         private void TxtChatInput_KeyDown(object sender, KeyEventArgs e)
         {
+            if (selected_user == false)
+            {
+                txtChatInput.Text = string.Empty;
+                AddMsgToChat("אנא בחר משתמש");
+                return;
+            }
             if (lstUsers.Items.Count == 0 || lstUsers.SelectedItem == null)
             {
                 txtChatInput.Text = string.Empty;
@@ -302,7 +365,7 @@ namespace WinformClient
 
         private void btnRefreshUsers_Click(object sender, EventArgs e)
         {
-            chatServerProxy.AksClientsList();
+            chatServerProxy.AksClientsList(client.clientAD);
         }
 
         private void btnMoshe_Click(object sender, EventArgs e)
@@ -354,10 +417,13 @@ namespace WinformClient
             {
                 return;
             }
+            selected_user = true;
             //last selected index
             //AddMsgToChat("lstUsers_MouseClick");
 
             ChatUser selectedUser = lstUsers.SelectedItem as ChatUser;
+            selectedUser.HasMessageForYou = false;
+
             //lblChatWith.Text = "Chatting With " + selectedUser.UserHeb + "(" + selectedUser.UserAd + ")";
             lblChatWith.Text = " מתכתב עם " + selectedUser.UserHeb + " (" + selectedUser.UserAd + ")";
             if (selectedUserAdName != selectedUser.UserAd)
@@ -395,20 +461,24 @@ namespace WinformClient
         private sendData updateChatList;
         private sendData updateUsersList;
         private recieveChatData updateChatData;
+        private recieveClientSay updateClientSay;
+
         private Action flash;
 
         public string clientAD = Environment.UserName.ToLower() + "@" + Environment.UserDomainName.ToLower();
 
-        public Client(sendMsg __msgDlg, 
-            sendData updateChatListDlg, 
+        public Client(sendMsg __msgDlg,
+            sendData updateChatListDlg,
             sendData updateUsersListDlg,
             recieveChatData updateChatDataDlg,
+            recieveClientSay recieveClientSayDlg,
             Action flashDlg)
         {
             _sendMsg = __msgDlg;
             updateChatList = updateChatListDlg;
             updateUsersList = updateUsersListDlg;
             updateChatData = updateChatDataDlg;
+            updateClientSay = recieveClientSayDlg;
             flash = flashDlg;
         }
 
@@ -419,19 +489,20 @@ namespace WinformClient
 
         public void RecieveClientsList(ChatUser[] clientList)
         {
-            _sendMsg("RecieveClientsList");
+            //_sendMsg("RecieveClientsList");
             updateUsersList(clientList);
         }
 
         public void RecieveFromClient(string msg, ChatUser fromUser)
         {
-            _sendMsg(fromUser.UserHeb + " : " + msg);
+            //_sendMsg(fromUser.UserHeb + " : " + msg);
+            updateClientSay(msg, fromUser);
             flash();
         }
 
         public void RecieveUsersChatHistory(ChatDetails[] chatHistory, ChatUser from)
         {
-            _sendMsg("updateChatData");
+            //_sendMsg("updateChatData");
             updateChatData(chatHistory, from);
         }
 

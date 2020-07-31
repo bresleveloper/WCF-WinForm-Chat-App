@@ -13,20 +13,20 @@ namespace ConsoleServer
     public class Server : IServer
     {
         public event AksClientsListHandler AkskingClientsList;
-        public delegate void AksClientsListHandler(IClient clientChannel);
-        public void AksClientsList()
+        public delegate void AksClientsListHandler(string clientADName, IClient clientChannel);
+        public void AksClientsList(string clientADName)
         {
             IClient clientChannel = OperationContext.Current.GetCallbackChannel<IClient>();
-            AkskingClientsList(clientChannel);
+            AkskingClientsList(clientADName, clientChannel);
         }
 
 
         public event ClientRegisteredHandler ClientRegistered;
         public delegate void ClientRegisteredHandler(string clientName, IClient clientChannel);
-        public void Register(string clientName)
+        public void Register(string clientADName)
         {
             IClient clientChannel = OperationContext.Current.GetCallbackChannel<IClient>();
-            ClientRegistered(clientName, clientChannel);
+            ClientRegistered(clientADName, clientChannel);
         }
 
         public event UsersChatHistoryHandler AksUsersChatHistoryEvent;

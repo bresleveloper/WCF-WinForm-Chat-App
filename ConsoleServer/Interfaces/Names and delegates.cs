@@ -20,5 +20,6 @@ namespace Interfaces
     public delegate void sendMsg(string msg);
     public delegate void sendData(object[] data);
     public delegate void recieveChatData(ChatDetails[] chatHistory, ChatUser from);
+    public delegate void recieveClientSay(string msg, ChatUser fromUser);
 
 }

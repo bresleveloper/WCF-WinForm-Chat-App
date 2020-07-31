@@ -23,5 +23,7 @@ namespace Interfaces
 
         [DataMember]
         public bool IsConnected { get; set; }
+        [DataMember]
+        public bool HasMessageForYou { get; set; }
     }
 }

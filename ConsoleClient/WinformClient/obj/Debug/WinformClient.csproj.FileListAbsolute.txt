@@ -10,4 +10,3 @@ C:\Users\admin\source\repos\ChatManager\ConsoleClient\WinformClient\obj\Debug\Wi
 C:\Users\admin\source\repos\ChatManager\ConsoleClient\WinformClient\obj\Debug\WinformClient.csproj.CoreCompileInputs.cache
 C:\Users\admin\source\repos\ChatManager\ConsoleClient\WinformClient\obj\Debug\WinformClient.exe
 C:\Users\admin\source\repos\ChatManager\ConsoleClient\WinformClient\obj\Debug\WinformClient.pdb
-C:\Users\admin\source\repos\ChatManager\ConsoleClient\WinformClient\obj\Debug\WinformClient.csprojResolveAssemblyReference.cache

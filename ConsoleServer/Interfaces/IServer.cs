@@ -14,13 +14,13 @@ namespace Interfaces
         void Register(string clientName);
 
         [OperationContract(IsOneWay = true)]
-        void AksClientsList();
+        void AksClientsList(string clientADName);
 
         [OperationContract(IsOneWay = true)]
         void ClientSay(string msg, ChatUser clientFrom, ChatUser clientTo);
 
         [OperationContract(IsOneWay = true)]
-        void AksUsersChatHistory(ChatUser a, ChatUser b);
+        void AksUsersChatHistory(ChatUser askingUser, ChatUser targetUser);
 
         [OperationContract(IsOneWay = true)]
         void Broadcast(string msg);
