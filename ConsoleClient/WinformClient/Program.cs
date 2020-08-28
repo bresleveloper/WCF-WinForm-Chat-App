@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Management;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -43,7 +44,8 @@ namespace WinformClient
                                                        out AnswerBytes,
                                                        out AnswerCount))
                         {
-                            string userName = Marshal.PtrToStringUni(AnswerBytes);
+                            //string userName = Marshal.PtrToStringUni(AnswerBytes);
+                            string userName = GetProcessOwner(p.Id);
                             if (Environment.UserName == userName)
                             {
                                 MessageBox.Show(userName + " - " + Environment.UserName + " - Only 1 instance per user allowed");
@@ -80,5 +82,25 @@ namespace WinformClient
             int WTSInfoClass,
             out IntPtr ppBuffer,
             out IntPtr pBytesReturned);
+
+        /// Gets the process owner.
+        static string GetProcessOwner(int processId)
+        {
+            string query = "Select * From Win32_Process Where ProcessID = " + processId;
+            ManagementObjectSearcher moSearcher = new ManagementObjectSearcher(query);
+            ManagementObjectCollection moCollection = moSearcher.Get();
+
+            foreach (ManagementObject mo in moCollection)
+            {
+                string[] args = new string[] { string.Empty };
+                int returnVal = Convert.ToInt32(mo.InvokeMethod("GetOwner", args));
+                if (returnVal == 0)
+                    return args[0];
+            }
+
+            return "N/A";
+        }
+
+
     }
 }
