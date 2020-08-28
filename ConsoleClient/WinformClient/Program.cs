@@ -22,7 +22,7 @@ namespace WinformClient
             }
 
 
-            if (devMode == false)
+            /*if (devMode == false)
             {
                 string proc = Process.GetCurrentProcess().ProcessName;
                 // get the list of all processes by that name
@@ -33,7 +33,7 @@ namespace WinformClient
                     MessageBox.Show("only one instance at a time");
                     return;
                 }
-            }
+            }*/
 
 
             Application.EnableVisualStyles();
