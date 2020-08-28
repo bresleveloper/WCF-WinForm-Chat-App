@@ -44,8 +44,11 @@ namespace WinformClient
                                                        out AnswerCount))
                         {
                             string userName = Marshal.PtrToStringUni(AnswerBytes);
-                            MessageBox.Show(userName + " - " + Environment.UserName + " - Only 1 instance per user allowed");
-                            return;
+                            if (Environment.UserName == userName)
+                            {
+                                MessageBox.Show(userName + " - " + Environment.UserName + " - Only 1 instance per user allowed");
+                                return;
+                            }
                         }
                         else
                         {
