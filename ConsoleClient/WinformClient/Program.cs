@@ -35,6 +35,7 @@ namespace WinformClient
                 {
                     IntPtr AnswerBytes;
                     IntPtr AnswerCount;
+                    int pCount = 0;
 
                     foreach (Process p in processes)
                     {
@@ -44,12 +45,17 @@ namespace WinformClient
                                                        out AnswerBytes,
                                                        out AnswerCount))
                         {
-                            //string userName = Marshal.PtrToStringUni(AnswerBytes);
-                            string userName = GetProcessOwner(p.Id);
+                            string userName = Marshal.PtrToStringUni(AnswerBytes);
+                            //string userName = GetProcessOwner(p.Id);
                             if (Environment.UserName == userName)
                             {
-                                MessageBox.Show(userName + " - " + Environment.UserName + " - Only 1 instance per user allowed");
-                                return;
+                                pCount++;
+                                if (pCount > 1)
+                                {
+                                    MessageBox.Show(userName + " - " + Environment.UserName + " - Only 1 instance per user allowed");
+                                    return;
+                                }
+
                             }
                         }
                         else
